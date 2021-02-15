@@ -1,0 +1,15 @@
+D:\Code\Demo\WPFDemo\SimpleMVVMDemo1\bin\Debug\SimpleMVVMDemo1.exe.config
+D:\Code\Demo\WPFDemo\SimpleMVVMDemo1\bin\Debug\SimpleMVVMDemo1.exe
+D:\Code\Demo\WPFDemo\SimpleMVVMDemo1\bin\Debug\SimpleMVVMDemo1.pdb
+D:\Code\Demo\WPFDemo\SimpleMVVMDemo1\obj\Debug\SimpleMVVMDemo1.csprojAssemblyReference.cache
+D:\Code\Demo\WPFDemo\SimpleMVVMDemo1\obj\Debug\MainWindow.g.cs
+D:\Code\Demo\WPFDemo\SimpleMVVMDemo1\obj\Debug\App.g.cs
+D:\Code\Demo\WPFDemo\SimpleMVVMDemo1\obj\Debug\SimpleMVVMDemo1_MarkupCompile.cache
+D:\Code\Demo\WPFDemo\SimpleMVVMDemo1\obj\Debug\SimpleMVVMDemo1_MarkupCompile.lref
+D:\Code\Demo\WPFDemo\SimpleMVVMDemo1\obj\Debug\MainWindow.baml
+D:\Code\Demo\WPFDemo\SimpleMVVMDemo1\obj\Debug\SimpleMVVMDemo1.g.resources
+D:\Code\Demo\WPFDemo\SimpleMVVMDemo1\obj\Debug\SimpleMVVMDemo1.Properties.Resources.resources
+D:\Code\Demo\WPFDemo\SimpleMVVMDemo1\obj\Debug\SimpleMVVMDemo1.csproj.GenerateResource.cache
+D:\Code\Demo\WPFDemo\SimpleMVVMDemo1\obj\Debug\SimpleMVVMDemo1.csproj.CoreCompileInputs.cache
+D:\Code\Demo\WPFDemo\SimpleMVVMDemo1\obj\Debug\SimpleMVVMDemo1.exe
+D:\Code\Demo\WPFDemo\SimpleMVVMDemo1\obj\Debug\SimpleMVVMDemo1.pdb

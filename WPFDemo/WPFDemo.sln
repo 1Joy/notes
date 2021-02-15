@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2003
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPFDemo", "WPFDemo\WPFDemo.csproj", "{A14B95F0-B85F-4CC4-95E9-E457575B6961}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleMVVMDemo1", "SimpleMVVMDemo1\SimpleMVVMDemo1.csproj", "{7CEDA36C-6B50-4C9C-AB29-11FA50A3D0D8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrazyWPF", "CrazyWPF\CrazyWPF.csproj", "{6478CF1E-6424-45E7-9C2D-6099ECA5F8A5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A14B95F0-B85F-4CC4-95E9-E457575B6961}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A14B95F0-B85F-4CC4-95E9-E457575B6961}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A14B95F0-B85F-4CC4-95E9-E457575B6961}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A14B95F0-B85F-4CC4-95E9-E457575B6961}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7CEDA36C-6B50-4C9C-AB29-11FA50A3D0D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CEDA36C-6B50-4C9C-AB29-11FA50A3D0D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CEDA36C-6B50-4C9C-AB29-11FA50A3D0D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CEDA36C-6B50-4C9C-AB29-11FA50A3D0D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6478CF1E-6424-45E7-9C2D-6099ECA5F8A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6478CF1E-6424-45E7-9C2D-6099ECA5F8A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6478CF1E-6424-45E7-9C2D-6099ECA5F8A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6478CF1E-6424-45E7-9C2D-6099ECA5F8A5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {82A84380-B9E7-4072-B0D8-9E9E5C392F00}
+	EndGlobalSection
+EndGlobal
