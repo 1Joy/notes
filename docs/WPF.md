@@ -158,11 +158,46 @@
           - x:ClassModifier的值必须与x:Class所指示的类的访问级别一致
      - x:Name 
 
-         
-  3. x:Class：用来声明类，指定xaml文件生成的类与哪个类合并
-  4. x:ClassModifier：声明类的访问级别
-  5. x:Name：为xaml创建的实例生成引用变量；用变量的名字给实例的name属性赋值；
-  6. x:FieldModifier
+         XAML是一种声明式语言，标签声明的是对象，一个标签对应着一个对象，这个对象一般是一个空间类的实例；但是XAML只负责声明这个对象但不声明这些对象的引用变量，此时就需要x:Name。 
+
+         作用： 
+
+          - 告诉XAML编译器，当一个标签带有x:Name时除了声明这个标签对应的实例，还要声明一个引用变量，变量名就是x:Name的值
+          - 如果标签对应的对象上有Name属性也设为X:Name的值，并且把这个值注册到UI树上，方便查找
+     - x:FieldModifier 
+
+         用来改变标签实例的引用变量的访问级别的(默认为internal)，使用x:FieldModifier要满足以下要求：
+          - 必须要使用x:Name或者Name属性，让其生成引用变量
+     - x:Key 
+
+         为资源添加上用于检索的索引
+ 2. **x名称空间的标记扩展** 
+
+     - x:Type 
+
+         为属性指定数据类型 
+
+         ```<local:MyButton Content="show" UseWindowType="{x:Type TypeName=local:MyWindow}"/>```
+     - x:Null 
+
+         为属性显示的赋一个空值 
+
+         ```让按钮没有Style样式：<Button Style="{x:Null}">btn2</Button>```
+     - x:Static
+         使用静态的属性或字段 
+
+         ```<Button Style="{x:Null}" Content="{x:Static local:MainWindow.show}"/>```
+
+## 控件与布局
+ 1. **控件** 
+
+     定义：WPF里面把那些能够展示数据、响应用户操作的UI元素称为控件 
+
+     分类：
+
+     - 布局控件：可容纳多个控件或嵌套其他布局控件，用于在UI上组织和排列控件，如Grid。基类：Panel
+     - 内容控件
+
 
   # MVVM(Model-View-ViewModel)
   ## 使用MVVM好处
