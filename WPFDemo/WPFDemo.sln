@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28010.2003
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPFDemo", "WPFDemo\WPFDemo.csproj", "{A14B95F0-B85F-4CC4-95E9-E457575B6961}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrazyWPF", "CrazyWPF\CrazyWPF.csproj", "{6478CF1E-6424-45E7-9C2D-6099ECA5F8A5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarkupExDemo", "MarkupExDemo\MarkupExDemo.csproj", "{7A0FC9D0-095A-4DAB-BC99-957EA5A30371}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPFContent", "WPFContent\WPFContent.csproj", "{1A4123A5-5FF4-4E4F-B403-184FA1522EBD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{7A0FC9D0-095A-4DAB-BC99-957EA5A30371}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7A0FC9D0-095A-4DAB-BC99-957EA5A30371}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7A0FC9D0-095A-4DAB-BC99-957EA5A30371}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A4123A5-5FF4-4E4F-B403-184FA1522EBD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A4123A5-5FF4-4E4F-B403-184FA1522EBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A4123A5-5FF4-4E4F-B403-184FA1522EBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A4123A5-5FF4-4E4F-B403-184FA1522EBD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

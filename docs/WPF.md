@@ -196,7 +196,121 @@
      分类：
 
      - 布局控件：可容纳多个控件或嵌套其他布局控件，用于在UI上组织和排列控件，如Grid。基类：Panel
-     - 内容控件
+     - 内容控件：只能容纳一个其他控件或布局控件作为内容，需要借助布局控件来规划内容。基类：ContentControl
+     - 带标题内容控件：相当于一个内容控件，但是可以加一个标题(Header)，标题部分可容纳一个布局或布局。基类：HeaderedContentControl
+     - 条目控件：显示一列数据，一般情况下数据类型相同。基类：ItemsControl
+     - 带标题条目控件：相当于一个条目控件加上一个标题显示区，如：TreeViewItem。基类：HeaderedItemsControl
+
+ 2. **WPF内容模型**  
+
+     控件相当于一个容器，里面的东西就是控件的内容，其内容可以是数据也可以是控件。如果是控件就形成了控件的嵌套(子控件)。UI布局允许控件嵌套，所以会形成一个树形结构。 
+
+     逻辑树：如果不考虑控件内部的组成结构，只观察有控件组成的树，这成为逻辑树 
+
+     可视元素树：WPF控件往往是更基本的控件构成，即控件本身就是一棵树，如果考虑控件本身的树，这颗树就称为可视元素树
+
+     把符合基类内容模型的UI元素成为一个族，每个族用他们的共同基类来命令
+     - ContentControl族 
+
+         特点：
+
+         - 均派生自ContentControl类
+         - 都是控件(Control)
+         - 内容属性的名称为Content
+         - 只能由单一元素充当其内容
+         ```
+          <Button>btn1</Button>
+         ```
+
+     - HeaderedContentControl族 
+
+         特点： 
+
+         - 都派生自HeaderedContentControl类，HeaderedContentControl是ContentControl类的派生类
+         - 都是控件，用于显示带标题的数据
+         - 除了用于显示主题内容的区域外，控件还具有一个显示标题的区域
+         - 内容属性为Content和Header
+         - content和Header都只能容纳一个元素
+         ```
+         <GroupBox Margin="5">
+            <GroupBox.Header>Header</GroupBox.Header>
+            <TextBlock Text="content"/>
+         </GroupBox>
+         ```
+
+     - ItemsControl族 
+
+         特点： 
+
+         - 均派生自ItemsControl类
+         - 都是控件，用于显示列表化的数据
+         - 内容属性为Items和ItemsSource
+         - 每种ItemsControl都对应有自己的条目内容(item container)
+
+         ItemControl族里面，不论把什么数据集合交给ListBox，都会用一个ListBoxItem进行自动包装，ListBoxItem就是ListBox的条目内容。
+         ```
+         <!--传统的listbox只能将条目以字符串的形式显示，WPF里面的处理把条目用字符串形式显示，还可以用其他形式显示，如checkbox-->
+         <ListBox Margin="5">
+            <CheckBox Content="joy"/>
+            <Button Content="joy"/>
+            <RadioButton Content="joy"/>
+            <ListBoxItem>
+                <Button Content="joy"/>
+            </ListBoxItem>
+         </ListBox>
+         ```
+     - HeaderedItemsControl族 
+
+         特点： 
+
+         - 均派生自HeaderedItemsControl类
+         - 具有ItemControl的特点，还可以显示一个标题
+         - 内容属性为Items、ItemsSource、Header
+
+         只有三个控件：MenuItem、TreeViewItem、ToolBar
+
+     - Decorator族 
+
+         此族中的元素是在UI上起装饰效果的。 
+
+         特点：
+
+         - 均派生自Decorator类
+         - 起UI装饰作用
+         - 内容属性为Child
+         - 只能由单一元素充当内容
+         ```
+         <Border>
+            <TextBlock Text="joy"/>
+         </Border>
+         ```
+
+     - Shape族元素 
+
+         特点：
+         - 均派生自Shape类
+         - 用于2D图形绘制
+         - 他们不是控件
+         - 没有内容属性，只能使用Fill属性填充，使用Stroke属性设置边线
+
+     - Panel族元素 
+
+         特点：
+         - 均派生自Panel抽象类
+         - 主要功能是控制UI布局
+         - 内容属性为Children
+         - 内容可以有多个元素，Panel元素将控制他们的布局
+
+         panel元素于ItemsControl元素的区别： 
+
+         - 相同点：内容都能容纳多个元素
+         - 不同点：
+            
+             1. ItemsControl强调以列表的形式来显示数据，panel强调对包含在其中的元素进行布局
+             2. ItemsControl的内容属性是Items和ItemsSource，Panel的内容属性是Children 
+
+ 3. **UI布局(Layout)**
+
 
 
   # MVVM(Model-View-ViewModel)
