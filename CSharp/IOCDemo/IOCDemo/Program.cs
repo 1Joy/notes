@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Unity;
+using Unity.Lifetime;
 
 namespace IOCDemo
 {
@@ -37,7 +38,7 @@ namespace IOCDemo
                 winPhone.Call();
                 iphone.Call();
             }
-            */
+            
             {
                 Console.WriteLine("依赖注入");
                 IUnityContainer container = new UnityContainer();
@@ -47,6 +48,28 @@ namespace IOCDemo
                 //3.通过反射来创建对象,在创建对象时，会自动创建构造函数需要的对象，并在构造函数调用完成后会去检查是否有属性注入和方法注入
                 IPhoneInterface phone = container.Resolve<IPhoneInterface>();
                 phone.Call();
+            }
+            
+            {
+                Console.WriteLine("生命周期");
+                //创建容器，容器作为对象创建的入口，可以加入自定义的对象管理逻辑(生命周期)
+                IUnityContainer container = new UnityContainer();
+                //瞬时生命周期，每一次创建的对象都是全新的
+                container.RegisterType<IPhoneInterface, IPhone>();//等价于container.RegisterType<IPhoneInterface, IPhone>(new TransientLifetimeManager());
+
+                //容器单例生命周期，在一个容器里面创建的一种对象都是同一个,不用自己去实现单例
+                container.RegisterType<IPhoneInterface, IPhone>(new ContainerControlledLifetimeManager());
+
+                //线程单例生命周期，在同一个线程里面创建的一种对象都是同一个
+                container.RegisterType<IPhoneInterface, IPhone>(new PerThreadLifetimeManager());
+
+                //子容器单例生命周期，在同一个容器里面创建的一种对象都是同一个
+                container.RegisterType<IPhoneInterface, IPhone>(new HierarchicalLifetimeManager());
+                IUnityContainer childContainer = container.CreateChildContainer(); //创建一个容器的子容器
+            }
+            */
+            {
+                Console.WriteLine("通过配置文件来创建对象，减少细节依赖");
             }
             Console.ReadLine();
         }

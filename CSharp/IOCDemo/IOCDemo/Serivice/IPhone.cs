@@ -10,6 +10,7 @@ namespace IOCDemo.Serivice
 {
     public class IPhone : IPhoneInterface
     {
+        [Dependency]
         public AbstractPhoneButton PhoneButton { get; set; }
 
         [InjectionConstructor] //构造函数注入，默认找参数最多的构造函数
