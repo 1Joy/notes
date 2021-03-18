@@ -311,6 +311,62 @@
 
  3. **UI布局(Layout)**
 
+     - 布局元素 
+         - Grid：网格，以网格的形式对内部元素进行布局
+         - StackPanel：栈式面板，将包含的元素按竖直或者水平方向上排成直线，移除一个元素后，后面的元素会自动向前移动填充空位
+         - Canvas：画布，内部元素可以使用像素为单位的绝对坐标定位
+         - DockPanel：停靠式面板
+         - WrapPanel：自动折行面板，内部元素在排满一行后自动换行
+     - Grid
+
+         特点：
+
+         - 可以定义任意数量的行和列
+         - 行的高度和列的宽度可以使用数值、相对比例或自动调整，并支持最大最小值
+         - 内部元素自己定义所在的行列，可跨行、跨列
+         - 可设置内部元素的对齐方向
+
+         适用场合：
+
+         - UI布局的大框架设计
+         - 大量的UI元素需要成行或成列对齐的情况
+         - UI整体尺寸改变时，元素需要保持固定的高度或宽度比例
+         - UI后期可能有较大的变更或扩展
+
+         定义Grid的行和列
+         ```
+         <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30px"/> //像素单位,默认单位
+                <RowDefinition Height="0.5in"/> //英寸单位
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1cm"/> //厘米单位
+                <ColumnDefinition Width="30pt"/> //点单位
+            </Grid.ColumnDefinitions>
+         </Grid>
+
+         //通过代码控制
+         this.grid.RowDefinitions.Add(new RowDefinition());
+         this.grid.ColumnDefinitions.Add(new ColumnDefinition());
+         ```
+         设置行高和列宽的三种方式： 
+
+         - 绝对值：double数值加单位
+         - 比例值：double数值后加*
+         - 自动值：Auto
+
+     - StackPanel 
+
+         适用场合： 
+
+         - 同类元素需要紧凑排列
+         - 移除其中的元素后能够自动补缺的布局或动画
+
+         使用以下几个属性来控制元素布局：
+         - Orientation：Horizontal/Vertical，决定内部元素是横向还是纵向
+         - HorizontalAlignment：Left/Right/Center/Stretch，决定内部元素水平方向上的对齐方式
+         - VerticalAlignment：Top/Center/Buttom/Stretch，决定内部元素竖直方向上的对齐方式
 
 
   # MVVM(Model-View-ViewModel)

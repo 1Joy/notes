@@ -23,6 +23,8 @@ namespace WPFDemo
         public MainWindow()
         {
             InitializeComponent();
+            this.grid.RowDefinitions.Add(new RowDefinition());
+            this.grid.ColumnDefinitions.Add(new ColumnDefinition());
         }
     }
 }
