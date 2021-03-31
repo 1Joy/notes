@@ -28,8 +28,10 @@ namespace Sender
             IModel channel = connection.CreateModel();
 
             //P2PModel(channel);
-
-            WorkQueueAutoAck(channel);
+            //WorkQueueAutoAck(channel);
+            //FanoutModel(channel);
+            //RoutingDirectModel(channel);
+            RoutingTopicModel(channel);
 
             channel.Close();
             connection.Close();
@@ -75,6 +77,60 @@ namespace Sender
             {
                 channel.BasicPublish("", "workQueue1", null, Encoding.UTF8.GetBytes($"{i} my first workQueue1 demo"));
             }
+        }
+
+        /// <summary>
+        /// 广播模型(发布/订阅模型) 扇形交换机
+        /// 1：有多个消费者，每个消费者都有自己的队列
+        /// 2：每个队列都绑定到交换机上面
+        /// 3：生产者只能发送消息到交换机，交换机来决定把消息发送到绑定的队列
+        /// 4：队列的消费者都能拿到消息，实现一条消息被多个消费者消费
+        /// </summary>
+        /// <param name="channel"></param>
+        public static void FanoutModel(IModel channel)
+        {
+            //绑定交换机
+            /* exchange：交换机名称，没有就会被创建
+             * type：交换机类型；fanout：扇形交换机
+             */
+            channel.ExchangeDeclare("logs", "fanout");
+
+            //发送消息
+            //此时发送消息只需要指定交换机的名称，不需要指定路由，因为此时交换机的类型是广播类型，路由无效
+            channel.BasicPublish("logs", "", null, Encoding.UTF8.GetBytes("fanout type message"));
+        }
+
+
+        /// <summary>
+        /// 路由模型之订阅模型(直连)
+        /// </summary>
+        /// <param name="channel"></param>
+        public static void RoutingDirectModel(IModel channel)
+        {
+            //声明交换机，直连交换机
+            channel.ExchangeDeclare("logs_direct", "direct");
+
+            string routingKey = "info";
+
+            //发送消息
+            //此时会指定路由
+            channel.BasicPublish("logs_direct", routingKey, null, Encoding.UTF8.GetBytes($"direct {routingKey} message"));
+        }
+
+        /// <summary>
+        /// 路由模型之订阅模型(动态路由)
+        /// </summary>
+        /// <param name="channel"></param>
+        public static void RoutingTopicModel(IModel channel)
+        {
+            //声明交换机，直连交换机
+            channel.ExchangeDeclare("logs_topic", "topic");
+
+            string routingKey = "user.info";
+
+            //发送消息
+            //此时会指定路由
+            channel.BasicPublish("logs_topic", routingKey, null, Encoding.UTF8.GetBytes($"topic {routingKey} message"));
         }
     }
 }

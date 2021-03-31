@@ -14,15 +14,10 @@ namespace Receiver
             //创建连接工厂对象
             ConnectionFactory connectionFactory = new ConnectionFactory()
             {
-                //设置主机
                 HostName = "192.168.99.100",
-                //设置端口号
                 Port=5672,
-                //可设置虚拟主机
                 VirtualHost = "my_vhost",
-                //设置用户名(默认是guest)
                 UserName = "admin",
-                //设置密码(默认是guest)
                 Password = "admin"
             };
             //获取连接对象
@@ -32,7 +27,11 @@ namespace Receiver
 
             //P2PModel(channel);
             //WorkQueueAutoAck(channel);
-            WorkQueueAck(channel);
+            //WorkQueueAck(channel);
+
+            //FanoutModel(channel);
+            //RoutingDirectModel(channel);
+            RoutingTopicModel(channel);
 
             //在消费者这一端，不建议关闭连接，因为监听消息是一个异步的，如果关闭了连接可能会造成监听不了消息
             Console.Read();
@@ -111,6 +110,89 @@ namespace Receiver
             };
 
             channel.BasicConsume("workQueue1", false, consumer);
+        }
+
+
+        /// <summary>
+        /// 广播模型(发布/订阅模型) 扇形交换机
+        /// </summary>
+        /// <param name="channel"></param>
+        public static void FanoutModel(IModel channel)
+        {
+            //绑定交换机
+            channel.ExchangeDeclare("logs", "fanout");
+
+            //创建临时队列，获取队列名称
+            //使用生成的名称创建一个非持久的，排他的，自动删除的队列，降低的服务压力
+            string queueName = channel.QueueDeclare().QueueName;
+
+            //绑定队列到交换机
+            //因为此时是广播类型交换机所以路由无效
+            channel.QueueBind(queueName, "logs", "");
+
+            //消费消息
+            var consumer = new EventingBasicConsumer(channel);
+            consumer.Received += (model, e) =>
+            {
+                Console.WriteLine($"消费消息:{Encoding.UTF8.GetString(e.Body.ToArray())}");
+            };
+
+            //自动确认消息
+            channel.BasicConsume(queueName, true, consumer);
+        }
+
+
+        /// <summary>
+        /// 路由模型之订阅模型(直连)
+        /// </summary>
+        /// <param name="channel"></param>
+        public static void RoutingDirectModel(IModel channel)
+        {
+            //省略绑定交换机步骤
+            channel.ExchangeDeclare("logs_direct", "direct");
+            //创建临时队列
+            string queueName = channel.QueueDeclare().QueueName;
+
+            //绑定队列到交换机,此时需要指定绑定的路由
+            channel.QueueBind(queueName, "logs_direct", "info");
+            channel.QueueBind(queueName, "logs_direct", "error");
+
+            //消费消息
+            //消费消息
+            var consumer = new EventingBasicConsumer(channel);
+            consumer.Received += (model, e) =>
+            {
+                Console.WriteLine($"消费消息{e.RoutingKey}:{Encoding.UTF8.GetString(e.Body.ToArray())}");
+            };
+
+            //自动确认消息
+            channel.BasicConsume(queueName, true, consumer);
+        }
+
+        /// <summary>
+        /// 路由模型之订阅模型(动态路由)
+        /// </summary>
+        /// <param name="channel"></param>
+        public static void RoutingTopicModel(IModel channel)
+        {
+            //省略绑定交换机步骤
+            channel.ExchangeDeclare("logs_topic", "topic");
+            //创建临时队列
+            string queueName = channel.QueueDeclare().QueueName;
+
+            //绑定队列到交换机,此时需要指定绑定的路由
+            channel.QueueBind(queueName, "logs_topic", "*.info");
+
+            //消费消息
+            //消费消息
+            var consumer = new EventingBasicConsumer(channel);
+            consumer.Received += (model, e) =>
+            {
+                Console.WriteLine($"消费消息{e.RoutingKey}:{Encoding.UTF8.GetString(e.Body.ToArray())}");
+            };
+
+            //自动确认消息
+            channel.BasicConsume(queueName, true, consumer);
         }
     }
 }
