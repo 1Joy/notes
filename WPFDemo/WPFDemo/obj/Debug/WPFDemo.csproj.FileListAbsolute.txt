@@ -1,0 +1,15 @@
+D:\docs\studyNotes\notes\WPFDemo\WPFDemo\bin\Debug\WPFDemo.exe.config
+D:\docs\studyNotes\notes\WPFDemo\WPFDemo\bin\Debug\WPFDemo.exe
+D:\docs\studyNotes\notes\WPFDemo\WPFDemo\bin\Debug\WPFDemo.pdb
+D:\docs\studyNotes\notes\WPFDemo\WPFDemo\obj\Debug\WPFDemo.csprojAssemblyReference.cache
+D:\docs\studyNotes\notes\WPFDemo\WPFDemo\obj\Debug\MainWindow.g.cs
+D:\docs\studyNotes\notes\WPFDemo\WPFDemo\obj\Debug\App.g.cs
+D:\docs\studyNotes\notes\WPFDemo\WPFDemo\obj\Debug\WPFDemo_MarkupCompile.cache
+D:\docs\studyNotes\notes\WPFDemo\WPFDemo\obj\Debug\WPFDemo_MarkupCompile.lref
+D:\docs\studyNotes\notes\WPFDemo\WPFDemo\obj\Debug\MainWindow.baml
+D:\docs\studyNotes\notes\WPFDemo\WPFDemo\obj\Debug\WPFDemo.g.resources
+D:\docs\studyNotes\notes\WPFDemo\WPFDemo\obj\Debug\WPFDemo.Properties.Resources.resources
+D:\docs\studyNotes\notes\WPFDemo\WPFDemo\obj\Debug\WPFDemo.csproj.GenerateResource.cache
+D:\docs\studyNotes\notes\WPFDemo\WPFDemo\obj\Debug\WPFDemo.csproj.CoreCompileInputs.cache
+D:\docs\studyNotes\notes\WPFDemo\WPFDemo\obj\Debug\WPFDemo.exe
+D:\docs\studyNotes\notes\WPFDemo\WPFDemo\obj\Debug\WPFDemo.pdb
