@@ -30,6 +30,13 @@
                     <TextBlock Text="joy"/>
                 </Border>
             </TabItem>
+            <TabItem Header="Canvas">
+                
+                <Canvas>
+                    <TextBlock Text="用户名：" Canvas.Left="12" Canvas.Top="12"/>
+                    <TextBox Height="23" Width="200" Canvas.Left="66" Canvas.Top="9"/>
+                </Canvas>
+            </TabItem>
         </TabControl>
         
     </StackPanel>

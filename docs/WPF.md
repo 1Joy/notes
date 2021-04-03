@@ -367,7 +367,176 @@
          - Orientation：Horizontal/Vertical，决定内部元素是横向还是纵向
          - HorizontalAlignment：Left/Right/Center/Stretch，决定内部元素水平方向上的对齐方式
          - VerticalAlignment：Top/Center/Buttom/Stretch，决定内部元素竖直方向上的对齐方式
+     - Canvas
+         
+         适用场合：
 
+         - 设计过后就基本不会再有改动的小型布局
+         - 艺术性较强的布局
+         - 需要大量使用横纵坐标进行绝对点定位的布局
+         - 依赖于横纵坐标的动画
+
+         ```
+         <Canvas>
+            <TextBlock Text="用户名：" Canvas.Left="12" Canvas.Top="12"/>
+            <TextBox Height="23" Width="200" Canvas.Left="66" Canvas.Top="9"/>
+         </Canvas>
+         ```
+     - DockPanel
+
+         几个重要属性：
+         - **Dock：** DockPanel内的元素会被附加上DockPanel.Dock属性（Left,Top,Right,Buttom），根据Dock属性值，DockPanel内的元素会向指定方向累积，切分DockPanel内部的剩余空间
+         - **LastChildFill：** 默认值为**True**；LastChildFill=True：DockPanel内的最后一个元素的Dock属性会被忽略，这个元素会填满剩余的空间
+     - WrapPanel
+
+         WrapPanel内部采用的是流式布局
+
+         几个重要属性：
+         - **Orientation：** 控制流延伸的方向
+         - **HorizontalAlignment：** 指定水平对齐方式
+         - **VerticalAlignment：** 指定垂直对齐方式
+         
+
+
+
+
+
+
+## Binding
+
+ 程序是被来自UI的事件(封装后的消息)驱使向前的，简称“消息驱动”或“事件驱动”。因为消息和事件大都来自于UI，所以统称他们为“UI驱动程序”
+
+ 程序逻辑层将数据发送给用户界面显示出来的方式叫做“数据驱动UI”
+
+ 这种方式让我们的数据(程序的核心)处于被动地位，要让数据回归到核心，需要用到data Binding
+
+ **Bing基础**
+ 
+ 把binding比作数据的桥梁，那么它的两端分别是binding的源(source)和目标(target)
+
+ 一般情况下，binding源是逻辑层对象，目标是UI层控制对象，如此数据就会被从源发送到UI层，被UI层展示，同时也就完成了**数据驱动UI**的过程
+ ```
+ //准备数据源
+ student = new Student();
+
+ //准备binding
+ Binding binding = new Binding();
+ binding.Source = student;
+ binding.Path = new PropertyPath("Name");
+
+ //使用binding连接数据源与目标
+ BindingOperations.SetBinding(textBoxName, TextBox.TextProperty, binding);
+
+ //上面三个步骤可替换为
+ //textBoxName.SetBinding(TextBox.TextProperty, new Binding("Name") { Source = student = new Student() });
+ ```
+
+ **Binding的源与路径**
+
+ 数据源：是一个对象，并且通过属性公开自己的数据，就能作为数据源
+ 
+   1. **把控件作为数据源与binding标记扩展** 
+        ```
+         <StackPanel>
+            <Slider x:Name="slider1" Maximum="100" Minimum="-100"/>
+            <!--binding的标记扩展语法-->
+            <TextBox x:Name="textBox1" Text="{Binding Path=Value,ElementName=slider1}"/>
+         </StackPanel>
+        ```
+   2. **控制Binding的方向及数据更新**
+
+         Binding在源与目标之间架起了沟通的桥梁，默认情况下数据既能通过binding送达到目标，也能够从目标返回数据源
+
+         控制binding数据流向的属性**Mode**:
+         - BindingMode.TwoWay：导致对源属性或目标属性的更改可自动更新对方。此绑定类型适用于可编辑窗体或其他完全交互式 UI 方案
+         - BindingMode.OneWay：当绑定源（源）更改时，更新绑定目标（目标）属性
+         - BindingMode.OnTime：仅当应用程序启动时或 DataContext 进行更改时更新目标属性
+         - BindingMode.OneWayToSource：当目标属性更改时更新源属性
+         - BindingMode.Default：binding的模式根据目标的实际情况来确定，比如目标是可编辑的属性，采用双向模式；目标是只读的采用单向模式
+   3. **Binding的路径(Path)**
+         
+         路径：来指定Binding要关注的属性，即在绑定时为Path赋的值就是路径
+
+         path的几种使用方式：
+         - 对象属性：```{Binding Path=Value,ElementName=slider1}```
+         - 索引器：集合类型的索引器也叫做带参属性；
+            ```
+             <!--显示字符串里的第4个字符-->
+             {Binding Path=Text.[3],ElementName=textBox1}
+            ```
+         - 集合或者DataView作为源时，也可以把它的默认元素当作Path使用：
+            ```
+             List<string> list = new List<string>(){"tim"}
+             textBox1.setBinding(TextBox.TextProperty,new Binding("/"){Source=list});
+            ```
+        - 没有Path属性：
+             这是一种特殊情况，binding源本身就是数据且不需要path来指明。string，int等基本类型就是这样，他们的实例本身就是数据，所以无法指定属性来访问，所以将Path设置为.或者隐藏
+   4. **为Binding指定源的几种方法**
+    
+         - 把普通的CLR类型单个对象指定为源
+
+             包括了.NET Framework自带类型的对象和用户自定义类型的对象，如果类型实现了INotifyPropertyChanged接口，则可通过在属性的set语句里激发PropertyChanged事件来通知Binding数据已被更新
+
+         - 把普通的CLR集合类型对象指定为源
+
+             包括数组、List<T>、ObservableCollection<T>等集合类型；我们经常需要把一个集合作为ItemsControl源生类的数据源来使用，一般是把控件的ItemsSource属性使用Binding关联到一个集合对象上
+             ```
+             <TextBlock Text="Student ID:" Margin="5"/>
+             <TextBox x:Name="textBoxId" Margin="5"/>
+             <TextBlock Text="Student List:" Margin="5"/>
+             <ListBox x:Name="listBoxStudents" Height="110" Margin="5"/>
+
+
+             List<Student> students = new List<Student>() {
+             new Student(){Id=0,Name="joy",Age=24},
+             new Student(){Id=1,Name="joy1",Age=24},
+             new Student(){Id=2,Name="joy2",Age=24},
+             new Student(){Id=3,Name="joy3",Age=24},
+             new Student(){Id=4,Name="joy4",Age=24},
+             };
+
+             listBoxStudents.ItemsSource = students;
+             //这个属性被赋值之后，ListBoxItem以此属性值为Path创建binding
+             listBoxStudents.DisplayMemberPath = "Name";
+
+             textBoxId.SetBinding(TextBox.TextProperty, new Binding("SelectedItem.Id") { Source = listBoxStudents });
+             ```
+
+         - 把ADO.NET数据对象指定为源
+
+             包括DataTable、DataView对象
+
+         - 把依赖对象指定为源
+
+             依赖对象不仅可以作为Binding的目标，同时也可以作为Binding的源。这样就有可能形成Binding链，依赖对象的依赖属性可以作为Binding的Path
+
+         - 把容器的DataContext指定为源(WPF 数据绑定的默认行为)
+
+             只给绑定设置路径，不设置源；绑定就会自己去寻找源，binding会自动把控件的DataContext当作自己的源(沿着控件树一层一层向外找，直到找到带有路径指定的属性对象为止)
+             ```
+             <StackPanel>
+                <StackPanel.DataContext>
+                    <local:Student Name="joy"/>
+                </StackPanel.DataContext>
+                <TextBox Text="{Binding Name}"/>
+             </StackPanel>
+             ```
+             使用场景：
+             - 当UI上的多个控件都使用Binding关注同一个对象时，可以使用DataContext
+             - 当作为源的对象不能直接被访问
+
+         - 通过ElementName指定源
+
+             指定控件元素的x:Name作为源
+
+         - 把ObjectDataProvider对象指定为源
+
+             当数据源的数据不是通过属性而是方法暴露给外界，可用这两种对象来包装数据源在指定为源
+
+         - 把使用LINQ检索得到的数据对象作为源
+
+            
+   5. 
 
   # MVVM(Model-View-ViewModel)
   ## 使用MVVM好处
