@@ -14,7 +14,7 @@
      是什么：是WPF技术中专门用于UI设计的语言 
 
      优点：实现了UI与逻辑的分离
- 
+
  2. **xaml代码**
      ``` 
      <Window x:Class="WpfApp1.MainWindow"
@@ -29,7 +29,7 @@
         
         </Grid>
      </Window> 
-     ``` 
+     ```
      - 标签 
 
          空标签：```<Button Content="Add" Width="120" Height="60"/>``` 
@@ -80,10 +80,10 @@
          ``` 
          <!--鼠标起始位置在0,0，用直线连接(200,100)、(100,200)，在闭合-->
          jhqwmn2<Path Data="M 0,0 L 200,100 L 100,200 Z" Stroke="AliceBlue" Fill="Red"></Path>
-         ```  
+         ```
      
      2. 属性标签 
-  
+     
          形如：<类名.属性名></类名.属性名>  
          为什么要用：为了解决为属性赋予较复杂的内容 
          ```
@@ -113,7 +113,7 @@
      3. 标签扩展 
 
          bing、StaticResource等等。
- 
+
  4. **事件处理器与代码后置** 
      1. 事件处理器 
 
@@ -149,7 +149,7 @@
          - 位于根节点
          - 类型一致
          - x:Class所指示的类必须要有partial关键字
-    
+        
      - x:ClassModifier 
 
          告诉XAML编译器由标签编译生成的类的访问级别，使用x:ClassModifier要满足以下要求：
@@ -167,9 +167,10 @@
      - x:FieldModifier 
 
          用来改变标签实例的引用变量的访问级别的(默认为internal)，使用x:FieldModifier要满足以下要求：
+         
           - 必须要使用x:Name或者Name属性，让其生成引用变量
-     - x:Key 
-
+- x:Key 
+  
          为资源添加上用于检索的索引
  2. **x名称空间的标记扩展** 
 
@@ -305,7 +306,7 @@
 
          - 相同点：内容都能容纳多个元素
          - 不同点：
-            
+           
              1. ItemsControl强调以列表的形式来显示数据，panel强调对包含在其中的元素进行布局
              2. ItemsControl的内容属性是Items和ItemsSource，Panel的内容属性是Children 
 
@@ -368,7 +369,7 @@
          - HorizontalAlignment：Left/Right/Center/Stretch，决定内部元素水平方向上的对齐方式
          - VerticalAlignment：Top/Center/Buttom/Stretch，决定内部元素竖直方向上的对齐方式
      - Canvas
-         
+       
          适用场合：
 
          - 设计过后就基本不会再有改动的小型布局
@@ -411,7 +412,7 @@
  这种方式让我们的数据(程序的核心)处于被动地位，要让数据回归到核心，需要用到data Binding
 
  **Bing基础**
- 
+
  把binding比作数据的桥梁，那么它的两端分别是binding的源(source)和目标(target)
 
  一般情况下，binding源是逻辑层对象，目标是UI层控制对象，如此数据就会被从源发送到UI层，被UI层展示，同时也就完成了**数据驱动UI**的过程
@@ -434,7 +435,7 @@
  **Binding的源与路径**
 
  数据源：是一个对象，并且通过属性公开自己的数据，就能作为数据源
- 
+
    1. **把控件作为数据源与binding标记扩展** 
         ```
          <StackPanel>
@@ -472,7 +473,7 @@
         - 没有Path属性：
              这是一种特殊情况，binding源本身就是数据且不需要path来指明。string，int等基本类型就是这样，他们的实例本身就是数据，所以无法指定属性来访问，所以将Path设置为.或者隐藏
    4. **为Binding指定源的几种方法**
-    
+     
          - 把普通的CLR类型单个对象指定为源
 
              包括了.NET Framework自带类型的对象和用户自定义类型的对象，如果类型实现了INotifyPropertyChanged接口，则可通过在属性的set语句里激发PropertyChanged事件来通知Binding数据已被更新
@@ -485,6 +486,7 @@
              <TextBox x:Name="textBoxId" Margin="5"/>
              <TextBlock Text="Student List:" Margin="5"/>
              <ListBox x:Name="listBoxStudents" Height="110" Margin="5"/>
+             ```
 
 
              List<Student> students = new List<Student>() {
@@ -494,24 +496,24 @@
              new Student(){Id=3,Name="joy3",Age=24},
              new Student(){Id=4,Name="joy4",Age=24},
              };
-
+    
              listBoxStudents.ItemsSource = students;
              //这个属性被赋值之后，ListBoxItem以此属性值为Path创建binding
              listBoxStudents.DisplayMemberPath = "Name";
-
+    
              textBoxId.SetBinding(TextBox.TextProperty, new Binding("SelectedItem.Id") { Source = listBoxStudents });
              ```
-
+    
          - 把ADO.NET数据对象指定为源
-
+    
              包括DataTable、DataView对象
-
+    
          - 把依赖对象指定为源
-
+    
              依赖对象不仅可以作为Binding的目标，同时也可以作为Binding的源。这样就有可能形成Binding链，依赖对象的依赖属性可以作为Binding的Path
-
+    
          - 把容器的DataContext指定为源(WPF 数据绑定的默认行为)
-
+    
              只给绑定设置路径，不设置源；绑定就会自己去寻找源，binding会自动把控件的DataContext当作自己的源(沿着控件树一层一层向外找，直到找到带有路径指定的属性对象为止)
              ```
              <StackPanel>
@@ -524,18 +526,19 @@
              使用场景：
              - 当UI上的多个控件都使用Binding关注同一个对象时，可以使用DataContext
              - 当作为源的对象不能直接被访问
-
+    
          - 通过ElementName指定源
-
+    
              指定控件元素的x:Name作为源
-
+    
          - 把ObjectDataProvider对象指定为源
-
+    
              当数据源的数据不是通过属性而是方法暴露给外界，可用这两种对象来包装数据源在指定为源
-
+    
          - 把使用LINQ检索得到的数据对象作为源
 
-            
+
+​            
    5. 
 
   # MVVM(Model-View-ViewModel)
@@ -545,7 +548,9 @@
   - 代码层面：可读、可测、可替换
   ## Model、View、ViewModel
   - Model：现实世界中对象的抽象结果，如：学生类
+
   - View：UI
+
   - ViewModel：Model for View，是一个view的抽象结果 
 
      view和viewmodel的沟通: 
@@ -596,7 +601,7 @@
      }
 
      <Slider x:Name="slider1" Value="{Binding Input1}" Grid.Row="0" Background="LightBlue" Minimum="-100" Maximum="100" Margin="4"/>
-     ``` 
+     ```
 
      传递操作——命令属性 
      ```
@@ -639,3 +644,106 @@
      ```
 
      **Binding：如果在Binding的时候没有指定source，就会在自身对象或者上级对象上面去找DataContext属性**
+     
+     
+
+# Prism框架
+
+## 搭建项目
+
+- 不使用模板创建
+
+  1. 新建WPF项目，添加Prism.DryIoc的Nuget包
+
+  2. 修改App.xaml.cs的父类为PrismApplication，并实现函数
+
+     ```
+     		/// <summary>
+             /// 创建程序主窗口
+             /// </summary>
+             /// <returns></returns>
+             protected override Window CreateShell()
+             {
+                 return Container.Resolve<MainWindow>();
+                 //throw new NotImplementedException();
+             }
+     
+             /// <summary>
+             /// 注册类型
+             /// </summary>
+             /// <param name="containerRegistry"></param>
+             protected override void RegisterTypes(IContainerRegistry containerRegistry)
+             {
+                 //throw new NotImplementedException();
+             }
+     ```
+
+     
+
+  3. 修改App.xaml文件
+
+     ```
+     <prism:PrismApplication x:Class="PrismDemo.App"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:local="clr-namespace:PrismDemo"
+                  xmlns:prism="http://prismlibrary.com/">
+         <Application.Resources>
+              
+         </Application.Resources>
+     </prism:PrismApplication>
+     ```
+
+     
+
+- 使用Prism Template创建项目
+
+## Region 区域
+
+- 定义
+
+  是Prism模块化的核心功能，主要是为了弱化模块与模块之间的耦合关系
+
+  定义Region有两种方式，一个是在XAML中指定，一个是在代码中指定
+
+  ```
+  //xaml中指定
+  <ContentControl prism:RegionManager.RegionName="ContentRegion" />
+  
+  //代码中指定
+  <HeaderedContentControl x:Name="header"/>
+  //相应的.cs文件的构造函数内定义
+  RegionManager.SetRegionName(header, "HeaderRegion");
+  
+  //添加视图进区域
+  public MainWindowViewModel(IRegionManager regionManager)
+  {
+  this.regionManager = regionManager;
+  
+  this.regionManager.RegisterViewWithRegion("ContentRegion", typeof(ViewContent));
+  this.regionManager.RegisterViewWithRegion("HeaderRegion", typeof(ViewHeader));
+  }
+  ```
+
+- RegionManager的作用
+
+  1. 定义区域
+
+  2. 维护区域集合
+
+  3. 提供对区域的访问
+
+     ```
+     this.regionManager.Regions["ContentRegion"]
+     ```
+
+     
+
+  4. 合成视图
+
+  5. 区域导航
+
+- 
+
+
+
