@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<menu>
+	<menuItem attr="m1">
+		<name>name1</name>
+	</menuItem>
+	<menuItem attr="m2">
+		<name>name2</name>
+	</menuItem>
+	<menuItem attr="m3">
+		<name>name3</name>
+	</menuItem>
+	<menuItem attr="m4">
+		<name>name4</name>
+	</menuItem>
+</menu>

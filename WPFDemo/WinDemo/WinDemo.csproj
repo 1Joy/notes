@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="xmlFile.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="xmlFile.xml" />
+  </ItemGroup>
+
+</Project>

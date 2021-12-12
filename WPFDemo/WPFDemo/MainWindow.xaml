@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFDemo"
         mc:Ignorable="d"
+        Loaded="Window_Loaded"
         Title="MainWindow" Height="450" Width="800">
     <Grid x:Name="grid">
         <Grid.RowDefinitions>
@@ -15,5 +16,7 @@
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
+        <ComboBox Width="50" Height="20" x:Name="comboBox1"></ComboBox>
+        <Button Grid.Column="1" Click="Button_Click">click  me</Button>
     </Grid>
 </Window>

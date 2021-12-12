@@ -15,4 +15,3 @@ D:\docs\studyNotes\notes\WPFDemo\MarkupExDemo\obj\Debug\MarkupExDemo.g.resources
 D:\docs\studyNotes\notes\WPFDemo\MarkupExDemo\obj\Debug\MarkupExDemo.Properties.Resources.resources
 D:\docs\studyNotes\notes\WPFDemo\MarkupExDemo\obj\Debug\MarkupExDemo.csproj.GenerateResource.cache
 D:\docs\studyNotes\notes\WPFDemo\MarkupExDemo\obj\Debug\MarkupExDemo.csproj.CoreCompileInputs.cache
-D:\docs\studyNotes\notes\WPFDemo\MarkupExDemo\obj\Debug\MarkupExDemo.csprojAssemblyReference.cache

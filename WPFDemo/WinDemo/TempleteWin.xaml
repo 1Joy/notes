@@ -1,0 +1,89 @@
+﻿<Window x:Class="WinDemo.TempleteWin"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WinDemo"
+        mc:Ignorable="d"
+        Title="TempleteWin" Height="450" Width="800">
+    <Window.Resources>
+        <x:Array Type="local:Person" x:Key="datas">
+            <local:Person Name="joy" Age="20" Left="0" Top="0"/>
+            <local:Person Name="joy1" Age="22" Left="20" Top="60"/>
+            <local:Person Name="joy2" Age="23" Left="10" Top="30"/>
+            <local:Person Name="joy3" Age="24" Left="24" Top="50"/>
+        </x:Array>
+
+        <DataTemplate x:Key="NormalTemp">
+            <WrapPanel TextBlock.Foreground="Green">
+                <TextBlock Text="{Binding Name}"/>
+                <TextBlock Text="{Binding Age}"/>
+            </WrapPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="WarnTemp">
+            <WrapPanel TextBlock.Foreground="Red">
+                <TextBlock Text="{Binding Name}"/>
+                <TextBlock Text="{Binding Age}"/>
+            </WrapPanel>
+        </DataTemplate>
+
+        <Style x:Key="NormalStyle" TargetType="ListViewItem">
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="Foreground" Value="Green"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListViewItem">
+                        <WrapPanel>
+                            <TextBlock Text="{Binding Name}"/>
+                            <TextBlock Text="{Binding Age}"/>
+                        </WrapPanel>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="WarnStyle" TargetType="ListViewItem" BasedOn="{StaticResource NormalStyle}">
+            <Setter Property="Foreground" Value="Red"/>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <TabControl>
+            <TabItem Header="AAA"/>
+            <TabItem Header="bbb"/>
+            <TabItem Header="ccc"/>
+            <TabItem Header="ddd"/>
+            <TabItem Header="eee"/>
+        </TabControl>
+        <!--<ItemsControl ItemsSource="{StaticResource datas}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <WrapPanel>
+                        <TextBlock Text="{Binding Name}" Margin="5,0"/>
+                        <TextBlock Text="{Binding Age}"/>
+                    </WrapPanel>
+                </DataTemplate>
+                
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <ItemsControl ItemsSource="{StaticResource datas}">
+            <ItemsControl.ItemsPanel>
+                --><!--控制集合控件里的子元素存放在什么布局容器里面--><!--
+                <ItemsPanelTemplate>
+                    <UniformGrid Columns="2"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
+
+        <ListView ItemsSource="{StaticResource datas}">
+            --><!--<ListView.ItemTemplateSelector>
+                <local:ListViewItemTempleteSelector NormalTemplate="{StaticResource NormalTemp}"
+                                                    WarnTemplate="{StaticResource WarnTemp}"/>
+            </ListView.ItemTemplateSelector>--><!--
+
+            <ListView.ItemContainerStyleSelector>
+                <local:ListViewItemContainerStyleSelector NormalStyle="{StaticResource NormalStyle}"
+                                                          WarnStyle="{StaticResource WarnStyle}"/>
+            </ListView.ItemContainerStyleSelector>
+        </ListView>-->
+    </Grid>
+</Window>

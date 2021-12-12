@@ -5,7 +5,6 @@ D:\docs\studyNotes\notes\WPFDemo\WpfBinding\bin\Debug\net5.0-windows\WpfBinding.
 D:\docs\studyNotes\notes\WPFDemo\WpfBinding\bin\Debug\net5.0-windows\WpfBinding.dll
 D:\docs\studyNotes\notes\WPFDemo\WpfBinding\bin\Debug\net5.0-windows\ref\WpfBinding.dll
 D:\docs\studyNotes\notes\WPFDemo\WpfBinding\bin\Debug\net5.0-windows\WpfBinding.pdb
-D:\docs\studyNotes\notes\WPFDemo\WpfBinding\obj\Debug\net5.0-windows\WpfBinding.csprojAssemblyReference.cache
 D:\docs\studyNotes\notes\WPFDemo\WpfBinding\obj\Debug\net5.0-windows\MainWindow.g.cs
 D:\docs\studyNotes\notes\WPFDemo\WpfBinding\obj\Debug\net5.0-windows\App.g.cs
 D:\docs\studyNotes\notes\WPFDemo\WpfBinding\obj\Debug\net5.0-windows\WpfBinding_MarkupCompile.cache

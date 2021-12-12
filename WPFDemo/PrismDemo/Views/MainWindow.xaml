@@ -2,10 +2,12 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:prism="http://prismlibrary.com/"
+        xmlns:userControls="clr-namespace:PrismDemo.UserControls"
         prism:ViewModelLocator.AutoWireViewModel="True"
         Title="{Binding Title}" Height="350" Width="525" >
     <Grid>
-        <HeaderedContentControl x:Name="header"/>
-        <ContentControl prism:RegionManager.RegionName="ContentRegion" />
+        <!--<HeaderedContentControl x:Name="header"/>
+        <ContentControl prism:RegionManager.RegionName="ContentRegion" />-->
+        <userControls:UserControl1 MyText="{Binding Path=MyBindingText,Mode=TwoWay}"/>
     </Grid>
 </Window>

@@ -876,7 +876,7 @@ window、page
 
      1. 依赖属性一定要定义在依赖对象里，依赖附加属性不一定
   2. 依赖属性关注的是定义对象的本身（通过属性包装获取值），依赖附加属性关注的是附加的目标对象（通过函数进行包装获取值）
-   
+
    - 
 
 3. 类型转换器
@@ -906,7 +906,47 @@ window、page
 
        指定数据源：source、elementName、dataContext、relativeSource
 
+       DataContext数据源处理：
+
+       ​	一个页面的dataContext只能绑定一个
+
+       ​	如果没有明确的为控件指定绑定数据源，就会从自身层级向上查找dataContext作为数据源
+
+       RelativeSource数据源处理：
+
+       ​	通常如果使用集合控件绑定数据集合，那么集合控件的数据模板的dataContext为数据集合的数据类型，如果需要在集合控件中绑定数据集合外的属性，就需要用到relativeSource来指定数据源。
+
+       AncestorType：指定要查找的对象的类型
+
+       Mode：指定查找相对源的方式
+
+       - FindAncestor：查找上层祖先
+       - TemplateParent：模板，等同于TemplateBinding
+       - Self：查找自身控件作为数据源
+       - PreviousData：前一个对象作为数据源
+
+       ```xaml
+       <ItemsControl ItemsSource="{Binding ListValue}">
+           <ItemsControl.ItemTemplate>
+               <DataTemplate>
+                   <WrapPanel>
+                       <TextBlock Text="{Binding Value}"/>
+                       <TextBlock Text="{Binding Path=DataContext.BM1.Value,
+                                        RelativeSource={RelativeSource AncestorType=Window,
+                                        Mode=FindAncestor}}"/>
+       
+                   </WrapPanel>
+       
+               </DataTemplate>
+           </ItemsControl.ItemTemplate>
+       </ItemsControl>
+       ```
+
+       常用数据源：
+
        1. 依赖对象作为数据源
+
+          elementName
 
        2. 普通数据类型或集合数据类型作为数据源
 
@@ -1027,13 +1067,390 @@ window、page
           <TextBlock Text="{Binding Path=(local:MethodClass.MyProperty)}"/>
           ```
 
-          
-
-       9. 
-
      - 数据访问路径
 
        指定数据访问路径：Path、XPath（xml路径）
+
+     - 绑定方式——Mode
+
+       - TwoWay：两个方向：目标属性->数据源；数据源->目标属性
+
+       - OneWay：一个方向：数据源->目标属性
+
+         >绑定移除：如果直接对有绑定表达式的目标属性直接赋值，会覆盖掉原来设置的绑定表达式，即如果再对数据源进行更新，该控件不会触发更新
+         >
+         >```xaml
+         ><TextBlock x:Name="tb1" Text="{Binding BM1.Value,Mode=OneWay}"/>
+         >
+         >this.tb1.Text="123";   //会覆盖绑定表达式
+         >
+         > //手动移除绑定关系
+         >BindingOperations.ClearBinding(tb, TextBox.TextProperty);
+         >```
+
+       - OneTime：一次，只接收数据源的初始值
+
+       - OneWayToSource：一个方向：目标属性->数据源
+
+       - Default：默认，不同的控件默认的方式不同
+
+     - 目标属性触发更新的方式—— UpdateSourceTrigger
+
+       - Default：默认，不同控件默认方式不同
+
+       - PropertyChanged：属性一更新就写入数据源
+
+       - LostFocus：当控件失去焦点时触发写入数据源
+
+       - Explicit：需要通过明确的事件进行触发
+
+         ```xaml
+         <TextBox x:Name="tb" Text="{Binding BM1.Value,UpdateSourceTrigger=Explicit}"/>
+         <TextBlock Text="{Binding BM1.Value}"/>
+         <Button Content="button" Click="Button_Click"/>
+         ```
+
+         ```c#
+         private void Button_Click(object sender, RoutedEventArgs e)
+         {
+             //获取目标控件上的某个属性的绑定表达式
+             BindingExpression bindingExpression = tb.GetBindingExpression(
+                 TextBox.TextProperty);
+             //手动触发更新数据源
+             bindingExpression.UpdateSource();
+         }
+         ```
+
+     - 绑定转换器——Converter
+
+       数据源属性与目标属性出现类型冲突或者值冲突时可以使用
+
+       > 步骤1：创建一个Converter类，实现IValueConverter
+       >
+       > ```c#
+       > public class BindModelConverter : IValueConverter
+       > {
+       >     /// <summary>
+       >     /// 从源到目标的数据转换
+       >     /// </summary>
+       >     /// <param name="value">数据源的值</param>
+       >     /// <param name="targetType">目标类型</param>
+       >     /// <param name="parameter">转换参数</param>
+       >     /// <param name="culture"></param>
+       >     /// <returns>将要给目标属性的值</returns>
+       >     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+       >     {
+       >         if (int.Parse(value.ToString()) > 200)
+       >             return Brushes.Red;
+       >         return Brushes.Green;
+       > 
+       >     }
+       > 
+       >     /// <summary>
+       >     /// 从目标到数据源的数据转换
+       >     /// </summary>
+       >     /// <param name="value"></param>
+       >     /// <param name="targetType"></param>
+       >     /// <param name="parameter"></param>
+       >     /// <param name="culture"></param>
+       >     /// <returns></returns>
+       >     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+       >     {
+       >         throw new NotImplementedException();
+       >     }
+       > }
+       > 
+       > 
+       > public class GenderConverter : IValueConverter
+       > {
+       >     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+       >     {
+       >         //如果数据源的值与传入的参数值一致，就说明是选中状态
+       >         if (value.ToString() == parameter.ToString())
+       >             return true;
+       >         return false;
+       >     }
+       > 
+       >     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+       >     {
+       >         return parameter;
+       >     }
+       > }
+       > ```
+       >
+       > 步骤2：界面上引入资源
+       >
+       > ```xaml
+       > <Window.Resources>
+       >     <local:BindModelConverter x:Key="converter1"/>
+       >     <local:GenderConverter x:Key="converter2"/>
+       > </Window.Resources>
+       > ```
+       >
+       > 步骤3：使用
+       >
+       > ```xaml
+       > <TextBlock x:Name="tb2" Text="{Binding BM1.Value}"
+       >            Foreground="{Binding BM1.Value,Converter={StaticResource converter1}}"/>
+       > 
+       > <RadioButton Content="男" IsChecked="{Binding BM1.Gender,Converter={StaticResource converter2}
+       >                                     ,ConverterParameter=1}"/>
+       > <RadioButton Content="女" IsChecked="{Binding BM1.Gender,Converter={StaticResource converter2}
+       >                                     ,ConverterParameter=2}"/>
+       > ```
+       >
+       
+     - 字符串格式化——StringFormat
+
+       格式化字符串或者拼接字符串
+
+       ```xaml
+       <!--保留两位小数，#表示不限制数字-->
+       <TextBlock Text="{Binding BM1.Value,StringFormat={}{0:#.00}}"/>
+       <TextBlock Text="{Binding BM1.Value,StringFormat={}{0:f2}}"/>
+       
+       <!--货币显示两位小数-->
+       <TextBlock Text="{Binding BM1.Value,StringFormat={}{0:C2}}"/>
+       
+       <TextBlock Text="{Binding Time,StringFormat={}{0:yyyy-MM-dd HH:mm:ss}}"/>
+       <TextBlock Text="{Binding Time,StringFormat=\{0:yyyy-MM-dd HH:mm:ss\}}"/>
+       <TextBlock Text="{Binding Time,StringFormat=时间：{0:yyyy-MM-dd HH:mm:ss}}"/>
+       ```
+
+     - Delay
+
+       停止界面控件输入后延迟多少毫秒触发从目标到数据源的写入。
+
+     - FallbackValue
+
+       设置当界面绑定错误是显示的值
+
+     ```xaml
+     <TextBlock Text="{Binding Tim,StringFormat=时间：{0:yyyy-MM-dd HH:mm:ss}
+                 ,FallbackValue=00}"/>
+     ```
+
+     - TargetNullValue
+
+       设置当目标属性值为null的时候显示的值
+
+       ```xaml
+       <TextBlock Text="{Binding Time,StringFormat=时间：{0:yyyy-MM-dd HH:mm:ss}
+                        ,FallbackValue=00,TargetNullValue=123}"/>
+       ```
+
+     - 数据验证并获取异常信息描述
+
+       1. 对依赖属性进行数据验证和获取异常描述
+
+          > 步骤1：通过依赖属性的验证回调验证数据
+          >
+          > 步骤2：设置待验证的控件的验证规
+          >
+          > ```xaml
+          > <TextBox x:Name="tb3" >
+          >     <TextBox.Text>
+          >         <Binding Path="Value11" UpdateSourceTrigger="PropertyChanged">
+          >             <!--设置数据验证规则-->
+          >             <Binding.ValidationRules>
+          >                 <ExceptionValidationRule/>
+          >             </Binding.ValidationRules>
+          >         </Binding>
+          >     </TextBox.Text>
+          > </TextBox>
+          >  ```
+          > 步骤3：界面显示数据验证的异常信息
+          > ```xaml
+          > <!--获取某个控件的验证异常信息-->
+          > <TextBlock Text="{Binding Path=(Validation.Errors)[0].ErrorContent,ElementName=tb3}"/>
+          > ```
+
+       2. 对普通属性进行数据验证和获取异常描述
+
+          缺点：是通过异常的方式返回错误，在调试过程中不好操作并且会创建异常对象可能会产生内存问题
+
+          > 步骤1：为属性做数据验证，并通过抛出异常的方式来表示验证失败
+          >
+          > ```c#
+          > private int _value11=123;
+          > 
+          > public int Value11
+          > {
+          >     get { return _value11; }
+          >     set {
+          >         if (value == 200)
+          >         {
+          >             throw new Exception("报错了");
+          >         }
+          >         _value11 = value;
+          >     }
+          > }
+          > ```
+          >
+          > 步骤2：设置待验证的控件的验证规则
+          >
+          > ```xaml
+          > <TextBox x:Name="tb3" >
+          >     <TextBox.Text>
+          >         <Binding Path="Value11" UpdateSourceTrigger="PropertyChanged">
+          >             <!--设置数据验证规则-->
+          >             <Binding.ValidationRules>
+          >                 <ExceptionValidationRule/>
+          >             </Binding.ValidationRules>
+          >         </Binding>
+          >     </TextBox.Text>
+          > </TextBox>
+          > ```
+          >
+          > 步骤3：界面显示数据验证的异常信息
+          >
+          > ```xaml
+          > <!--获取某个控件的验证异常信息-->
+          > <TextBlock Text="{Binding Path=(Validation.Errors)[0].ErrorContent,ElementName=tb3}"/>
+          > ```
+
+       3. 通过自定义数据验证规则进行数据验证和异常描述
+
+          缺点：要为每个属性定义数据验证规则比较麻烦
+
+          > 步骤1：新建一个类继承ValidationRule，并重写验证函数
+          >
+          > ```c#
+          > /// <summary>
+          > /// 自定义数据验证规则
+          > /// </summary>
+          > public class ValidationTest : ValidationRule
+          > {
+          >     /// <summary>
+          >     /// 
+          >     /// </summary>
+          >     /// <param name="value">目标属性的值</param>
+          >     /// <param name="cultureInfo"></param>
+          >     /// <returns></returns>
+          >     public override ValidationResult Validate(object value, CultureInfo cultureInfo)
+          >     {
+          >         //自定义验证规则和异常描述信息
+          >         if (value.ToString() == "200")
+          >             return new ValidationResult(false, "错误描述");
+          >         return new ValidationResult(true, "");
+          >     }
+          > }
+          > ```
+          >
+          > 步骤2：界面使用自定义验证类
+          >
+          > ```xaml
+          > <TextBox x:Name="tb3" >
+          >     <TextBox.Text>
+          >         <Binding Path="Value11" UpdateSourceTrigger="PropertyChanged">
+          >             <!--设置数据验证规则-->
+          >             <Binding.ValidationRules>
+          >                 <local:ValidationTest/>
+          >             </Binding.ValidationRules>
+          >         </Binding>
+          >     </TextBox.Text>
+          > </TextBox>
+          > ```
+          >
+          > 步骤3：获取异常描述显示到界面
+          >
+          > ```xaml
+          > <!--获取某个控件的验证异常信息-->
+          > <TextBlock Text="{Binding Path=(Validation.Errors)[0].ErrorContent,ElementName=tb3}"/>
+          > ```
+          >
+
+       4. 通过实现IDataErrorInfo接口实现数据验证和异常信息获取
+
+          > 步骤1：待验证的对象实现IDataErrorInfo接口，并实现验证逻辑
+          >
+          > ```c#
+          > public class BindingModel:INotifyPropertyChanged,IDataErrorInfo
+          > {
+          >     public int Value22 { get; set; }
+          >     public event PropertyChangedEventHandler PropertyChanged;
+          >     public string Error => null;
+          >     public string this[string columnName]
+          >     {
+          >         get
+          >         {
+          >             if (columnName == "Value22" && this.Value22 == 200)
+          >                 //数据验证逻辑
+          >                 return "出错了哈";
+          >             return "";
+          >         }
+          >     }
+          > }
+          > ```
+          >
+          > 缺点：需要在数据验证逻辑处添加对每个属性名称的判断，不能统一进行处理
+          >
+          > 可以通过**反射+特性**的方式解决上述缺点
+          >
+          > > 步骤1：自定义数据验证特性类
+          > >
+          > > ```c#
+          > > public class NotValueAttribute : Attribute
+          > > {
+          > >     public string Value { get; set; }
+          > >     public NotValueAttribute(string value)
+          > >     {
+          > >         Value = value;
+          > >     }
+          > > 
+          > >     public (bool,string) Do(object value)
+          > >     {
+          > >         if (value.ToString() == Value)
+          > >             return (true, $"字段不能为{Value}");
+          > >         return (false, "");
+          > >     }
+          > > }
+          > > ```
+          > >
+          > > 步骤2：在需要进行数据验证的属性上增加特性
+          > >
+          > > ```c#
+          > > [NotValue("200")]
+          > > public int Value22 { get; set; } = 100;
+          > > ```
+          > >
+          > > 步骤3：在索引里面通过反射来获取属性以及特性进行数据验证
+          > >
+          > > ```c#
+          > > public string this[string columnName]
+          > > {
+          > >     get
+          > >     {
+          > >         //获取属性
+          > >         var prop = this.GetType().GetProperty(columnName, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+          > >         if (prop.IsDefined(typeof(NotValueAttribute), false))
+          > >         {
+          > >             //获取特性对象
+          > >             var attr = prop.GetCustomAttributes(typeof(NotValueAttribute), false)[0] as NotValueAttribute;
+          > >             var (isEqual, msg) = attr.Do(prop.GetValue(this));
+          > >             if (isEqual)
+          > >                 return msg;
+          > >         }
+          > >         return "";
+          > >     }
+          > > }
+          > > ```
+          >
+          > 步骤2：界面控件绑定表达式设置ValidatesOnDataErrors=True
+          >
+          > ```xaml
+          > <TextBox x:Name="tb4" Text="{Binding BM1.Value22,UpdateSourceTrigger=PropertyChanged,
+          >                             ValidatesOnDataErrors=True}"/>
+          > ```
+          >
+          > 步骤3：获取异常描述显示到界面
+          >
+          > ```xaml
+          > <!--获取某个控件的验证异常信息-->
+          > <TextBlock Text="{Binding Path=(Validation.Errors)[0].ErrorContent,ElementName=tb4}"/>
+          > ```
+
+       5. 
 
      - 
 

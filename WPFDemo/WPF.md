@@ -704,30 +704,31 @@
 
   是Prism模块化的核心功能，主要是为了弱化模块与模块之间的耦合关系
 
-  定义Region有两种方式，一个是在XAML中指定，一个是在代码中指定
-
-  ```
-  //xaml中指定
-  <ContentControl prism:RegionManager.RegionName="ContentRegion" />
-  
-  //代码中指定
-  <HeaderedContentControl x:Name="header"/>
-  //相应的.cs文件的构造函数内定义
-  RegionManager.SetRegionName(header, "HeaderRegion");
-  
-  //添加视图进区域
-  public MainWindowViewModel(IRegionManager regionManager)
-  {
-  this.regionManager = regionManager;
-  
-  this.regionManager.RegisterViewWithRegion("ContentRegion", typeof(ViewContent));
-  this.regionManager.RegisterViewWithRegion("HeaderRegion", typeof(ViewHeader));
-  }
-  ```
 
 - RegionManager的作用
 
   1. 定义区域
+
+     定义Region有两种方式，一个是在XAML中指定，一个是在代码中指定
+
+     ```
+     //xaml中指定
+     <ContentControl prism:RegionManager.RegionName="ContentRegion" />
+     
+     //代码中指定
+     <HeaderedContentControl x:Name="header"/>
+     //相应的.cs文件的构造函数内定义
+     RegionManager.SetRegionName(header, "HeaderRegion");
+     
+     //添加视图进区域
+     public MainWindowViewModel(IRegionManager regionManager)
+     {
+     this.regionManager = regionManager;
+     
+     this.regionManager.RegisterViewWithRegion("ContentRegion", typeof(ViewContent));
+     this.regionManager.RegisterViewWithRegion("HeaderRegion", typeof(ViewHeader));
+     }
+     ```
 
   2. 维护区域集合
 
@@ -737,11 +738,36 @@
      this.regionManager.Regions["ContentRegion"]
      ```
 
-     
-
   4. 合成视图
 
   5. 区域导航
+
+- RegionAdapter
+
+  Prism内置了几个区域适配器:
+
+  - ContentControlRegionAdapter
+
+  - ItemsControlRegionAdapter
+
+  - SelectorRegionAdapter
+
+    ComboBox
+
+    ListBox
+
+    Ribbon
+
+    TabControl
+
+  **可以在ContentControl当中定义区域，也可以在任何元素上定义区域。但是如果定义的范围不在提供的区域适配器内，就会报错**
+
+
+## Module 模块
+
+- 定义
+
+  对于一个应用程序而言，特定的功能的所有View、Logic、Service等部分都是可以独立存在的。那么这个独立的功能模块就可以成为模块
 
 - 
 

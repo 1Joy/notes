@@ -1,0 +1,16 @@
+﻿<Window x:Class="PanelDemo.CanvasWin"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PanelDemo"
+        mc:Ignorable="d"
+        Title="CanvasWin" Height="450" Width="800">
+    <Canvas>
+        <Button Content="button1" Canvas.Left="120"/>
+        <Button Content="button2" Canvas.Right="200"/>
+        <Button Content="button3" Canvas.Top="60"/>
+        <Button Content="button4" Canvas.Bottom="300"/>
+        <Button Content="button5"/>
+    </Canvas>
+</Window>

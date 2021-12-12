@@ -26,5 +26,20 @@ namespace WPFDemo
             this.grid.RowDefinitions.Add(new RowDefinition());
             this.grid.ColumnDefinitions.Add(new ColumnDefinition());
         }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            List<string> hours = new List<string>(24);
+            for(int i = 0; i < 24; i++)
+            {
+                hours.Add(i.ToString("D2"));
+            }
+            comboBox1.ItemsSource = hours;
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            var ii = comboBox1.SelectedItem;
+        }
     }
 }

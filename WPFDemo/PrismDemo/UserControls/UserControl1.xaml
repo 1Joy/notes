@@ -1,0 +1,26 @@
+﻿<UserControl x:Class="PrismDemo.UserControls.UserControl1"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PrismDemo.UserControls"
+             mc:Ignorable="d" 
+             x:Name="myCustomControl">
+    <Grid>
+        <!--<TextBlock x:Name="MyControl" Text="{Binding MyText,
+            RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type UserControl}},Mode=TwoWay}"/>-->
+        <TextBlock x:Name="MyControl" Text="{Binding MyText,
+            ElementName=myCustomControl,Mode=TwoWay}"/>
+
+        <!--由于内部绑定时使用了this.DataContext = this，导致外部绑定不能使用外部DataContext，因此，如果内部绑定可以不使用
+        DataContext，问题就能得到解决，而RelativeSource能做到这一点。
+        小结：
+
+        1、要实现数据绑定，关键是要设置好数据源，保证能够找到对应的数据，默认会从DataContext中查找，所以，DataContext一般都要设置，
+        绑定自身属性时要设为this.DataContext = this。
+
+        2、RelativeSource通过根据控件类型查找相应的控件并绑定其属性，在自定义控件时很好解决了使用DataContext带来的问题。
+
+        3、自定义控件如果有自定义依赖属性，那应当将DataContext留给外部绑定，而不要在内部使用this.DataContext = this;-->
+    </Grid>
+</UserControl>

@@ -15,7 +15,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPFContent", "WPFContent\WP
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfBinding", "WpfBinding\WpfBinding.csproj", "{927F5092-C85A-4C7B-8B62-A24EC3CE3D71}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrismDemo", "PrismDemo\PrismDemo.csproj", "{68514C39-E3BD-46D8-A126-CD26DEDFC019}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PrismDemo", "PrismDemo\PrismDemo.csproj", "{68514C39-E3BD-46D8-A126-CD26DEDFC019}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PanelDemo", "PanelDemo\PanelDemo.csproj", "{B964208F-C888-4687-94DF-E6D84E4603B0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinDemo", "WinDemo\WinDemo.csproj", "{9BA3A169-C650-429A-A40E-3A4D4BE64164}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +55,14 @@ Global
 		{68514C39-E3BD-46D8-A126-CD26DEDFC019}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{68514C39-E3BD-46D8-A126-CD26DEDFC019}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{68514C39-E3BD-46D8-A126-CD26DEDFC019}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B964208F-C888-4687-94DF-E6D84E4603B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B964208F-C888-4687-94DF-E6D84E4603B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B964208F-C888-4687-94DF-E6D84E4603B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B964208F-C888-4687-94DF-E6D84E4603B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9BA3A169-C650-429A-A40E-3A4D4BE64164}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9BA3A169-C650-429A-A40E-3A4D4BE64164}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9BA3A169-C650-429A-A40E-3A4D4BE64164}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9BA3A169-C650-429A-A40E-3A4D4BE64164}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

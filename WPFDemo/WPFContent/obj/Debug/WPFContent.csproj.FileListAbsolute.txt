@@ -1,7 +1,6 @@
 D:\docs\studyNotes\notes\WPFDemo\WPFContent\bin\Debug\WPFContent.exe.config
 D:\docs\studyNotes\notes\WPFDemo\WPFContent\bin\Debug\WPFContent.exe
 D:\docs\studyNotes\notes\WPFDemo\WPFContent\bin\Debug\WPFContent.pdb
-D:\docs\studyNotes\notes\WPFDemo\WPFContent\obj\Debug\WPFContent.csprojAssemblyReference.cache
 D:\docs\studyNotes\notes\WPFDemo\WPFContent\obj\Debug\MainWindow.g.cs
 D:\docs\studyNotes\notes\WPFDemo\WPFContent\obj\Debug\App.g.cs
 D:\docs\studyNotes\notes\WPFDemo\WPFContent\obj\Debug\WPFContent_MarkupCompile.cache
