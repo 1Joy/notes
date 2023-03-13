@@ -6,7 +6,6 @@ D:\docs\studyNotes\notes\MQ\RabbitMQDemo\Sender\Sender\bin\Debug\netcoreapp3.1\S
 D:\docs\studyNotes\notes\MQ\RabbitMQDemo\Sender\Sender\bin\Debug\netcoreapp3.1\Sender.pdb
 D:\docs\studyNotes\notes\MQ\RabbitMQDemo\Sender\Sender\bin\Debug\netcoreapp3.1\RabbitMQ.Client.dll
 D:\docs\studyNotes\notes\MQ\RabbitMQDemo\Sender\Sender\bin\Debug\netcoreapp3.1\System.Threading.Channels.dll
-D:\docs\studyNotes\notes\MQ\RabbitMQDemo\Sender\Sender\obj\Debug\netcoreapp3.1\Sender.csprojAssemblyReference.cache
 D:\docs\studyNotes\notes\MQ\RabbitMQDemo\Sender\Sender\obj\Debug\netcoreapp3.1\Sender.AssemblyInfoInputs.cache
 D:\docs\studyNotes\notes\MQ\RabbitMQDemo\Sender\Sender\obj\Debug\netcoreapp3.1\Sender.AssemblyInfo.cs
 D:\docs\studyNotes\notes\MQ\RabbitMQDemo\Sender\Sender\obj\Debug\netcoreapp3.1\Sender.csproj.CoreCompileInputs.cache
@@ -14,3 +13,5 @@ D:\docs\studyNotes\notes\MQ\RabbitMQDemo\Sender\Sender\obj\Debug\netcoreapp3.1\S
 D:\docs\studyNotes\notes\MQ\RabbitMQDemo\Sender\Sender\obj\Debug\netcoreapp3.1\Sender.dll
 D:\docs\studyNotes\notes\MQ\RabbitMQDemo\Sender\Sender\obj\Debug\netcoreapp3.1\Sender.pdb
 D:\docs\studyNotes\notes\MQ\RabbitMQDemo\Sender\Sender\obj\Debug\netcoreapp3.1\Sender.genruntimeconfig.cache
+D:\docs\studyNotes\notes\MQ\RabbitMQDemo\Sender\Sender\obj\Debug\netcoreapp3.1\Sender.csproj.AssemblyReference.cache
+D:\docs\studyNotes\notes\MQ\RabbitMQDemo\Sender\Sender\obj\Debug\netcoreapp3.1\Sender.GeneratedMSBuildEditorConfig.editorconfig

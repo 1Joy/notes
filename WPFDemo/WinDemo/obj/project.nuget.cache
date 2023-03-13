@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "wXKwipH04LtRM9Sa7uEx1FeNqNH6rLqzywBueRs8k7QsmSd7Q4QUKXqbhHeemEdnDXLo0qny1Satcu43h6sXEw==",
+  "dgSpecHash": "/g7BIKXowU/V9Uj1SePyFCAUK+afdNBUu+cuPJaxBMx+Ay/GzUMXMY74ivDmQUiC33JBVc6FUcYKC2p3/XQokg==",
   "success": true,
   "projectFilePath": "D:\\docs\\studyNotes\\notes\\WPFDemo\\WinDemo\\WinDemo.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\JOY\\.nuget\\packages\\microsoft.xaml.behaviors.wpf\\1.1.39\\microsoft.xaml.behaviors.wpf.1.1.39.nupkg.sha512"
+  ],
   "logs": []
 }

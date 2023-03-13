@@ -97,6 +97,24 @@ namespace WinDemo
         }
     }
 
+    public class ValueMultiConverter : IMultiValueConverter
+    {
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
+            string value = "";
+            foreach (var item in values)
+            {
+                value += item.ToString();
+            }
+            return value;
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
     /// <summary>
     /// 自定义数据验证规则
     /// </summary>
@@ -121,6 +139,9 @@ namespace WinDemo
 
     public class BindingWinViewModel
     {
+        public int Value2 { get; set; } = 4;
+        public int Value3 { get; set; }
+
         private int _value11=123;
 
         public int Value11
@@ -208,4 +229,7 @@ namespace WinDemo
             return (false, "");
         }
     }
+
+
+    
 }

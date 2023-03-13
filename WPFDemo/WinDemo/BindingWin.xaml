@@ -9,6 +9,7 @@
     <Window.Resources>
         <local:BindModelConverter x:Key="converter1"/>
         <local:GenderConverter x:Key="converter2"/>
+        <local:ValueMultiConverter x:Key="ValueMultiConverter"/>
     </Window.Resources>
     <Window.DataContext>
         <local:BindingWinViewModel/>
@@ -76,5 +77,31 @@
             ElementName=tb4}"/>
 
         <Button Content="button" Click="Button_Click_1"/>
+
+        <TextBlock>
+            <TextBlock.Text>
+                <MultiBinding StringFormat="{}{0}--{1}">
+                    <Binding Path="Value2"/>
+                    <Binding Path="Value3"/>
+                </MultiBinding>
+            </TextBlock.Text>
+        </TextBlock>
+
+        <TextBlock>
+            <TextBlock.Text>
+                <MultiBinding Converter="{StaticResource ValueMultiConverter}">
+                    <Binding Path="Value2"/>
+                    <Binding Path="Value3"/>
+                </MultiBinding>
+            </TextBlock.Text>
+        </TextBlock>
+
+        <TextBox>
+            <PriorityBinding FallbackValue="正在获取数据.....">
+                <!--显示顺序：正在获取数据->Value3的值->value2的值-->
+                <Binding Path="Value2" IsAsync="True"/>
+                <Binding Path="Value3" IsAsync="True"/>
+            </PriorityBinding>
+        </TextBox>
     </StackPanel>
 </Window>

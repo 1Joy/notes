@@ -13,5 +13,21 @@ namespace WinDemo
     /// </summary>
     public partial class App : Application
     {
+        public App()
+        {
+            Startup += App_Startup;
+
+            TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;
+        }
+
+        private void TaskScheduler_UnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void App_Startup(object sender, StartupEventArgs e)
+        {
+            //throw new NotImplementedException();
+        }
     }
 }

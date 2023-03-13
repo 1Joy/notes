@@ -1,0 +1,162 @@
+﻿<Window x:Class="WinDemo.AnimationWin"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:WinDemo"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="动画">
+    <Window.Resources>
+        <Storyboard x:Key="sb">
+            <!--花一秒钟从50变化到200-->
+            <DoubleAnimation Duration="0:0:1"
+                             From="50"
+                             To="200"
+                             Storyboard.TargetName="border1"
+                             Storyboard.TargetProperty="Width"></DoubleAnimation>
+            <DoubleAnimation Duration="0:0:1"
+                             By="200"
+                             Storyboard.TargetName="border1"
+                             Storyboard.TargetProperty="Width"></DoubleAnimation>
+            <DoubleAnimation Duration="0:0:1"
+                             Storyboard.TargetName="border1"
+                             Storyboard.TargetProperty="Width"></DoubleAnimation>
+
+
+            <!--离散关键帧动画-->
+            <StringAnimationUsingKeyFrames Storyboard.TargetName="txt"
+                                           Storyboard.TargetProperty="Text">
+                <DiscreteStringKeyFrame KeyTime="0:0:0" Value=""/>
+                <DiscreteStringKeyFrame KeyTime="0:0:0.5" Value="t"/>
+                <DiscreteStringKeyFrame KeyTime="0:0:1" Value="tx"/>
+                <DiscreteStringKeyFrame KeyTime="0:0:1.5" Value="txt"/>
+            </StringAnimationUsingKeyFrames>
+
+            <DoubleAnimationUsingKeyFrames BeginTime="0:0:0" Storyboard.TargetProperty="X"
+                                           Storyboard.TargetName="tt1"
+                                           RepeatBehavior="Forever">
+                <!--样条关键帧动画-->
+                <!--keyspline：表示二次贝塞尔曲线的两个控制点-->
+                <SplineDoubleKeyFrame KeyTime="0:0:1" Value="310"
+                                      KeySpline="0.1,0.6,0.9,0.4"/>
+            </DoubleAnimationUsingKeyFrames>
+
+            <!--double路径动画-->
+            <!--source:从Path路径中取什么值-->
+            <DoubleAnimationUsingPath Storyboard.TargetName="tt"
+                                      Storyboard.TargetProperty="X"
+                                      Source="X" Duration="0:0:5">
+                <DoubleAnimationUsingPath.PathGeometry>
+                    <!--表示移动的路径-->
+                    <PathGeometry Figures="M0 0 100,100 A100 50 0 0 1 400 150"/>
+                </DoubleAnimationUsingPath.PathGeometry>
+            </DoubleAnimationUsingPath>
+            <DoubleAnimationUsingPath Storyboard.TargetName="tt"
+                                      Storyboard.TargetProperty="Y"
+                                      Source="Y" Duration="0:0:5">
+                <DoubleAnimationUsingPath.PathGeometry>
+                    <!--表示移动的路径-->
+                    <PathGeometry Figures="M0 0 100,100 A100 50 0 0 1 400 150"/>
+                </DoubleAnimationUsingPath.PathGeometry>
+            </DoubleAnimationUsingPath>
+            <DoubleAnimationUsingPath Storyboard.TargetName="rt1"
+                                      Storyboard.TargetProperty="Angle"
+                                      Source="Angle" Duration="0:0:5">
+                <DoubleAnimationUsingPath.PathGeometry>
+                    <!--表示移动的路径-->
+                    <PathGeometry Figures="M0 0 100,100 A100 50 0 0 1 400 150"/>
+                </DoubleAnimationUsingPath.PathGeometry>
+            </DoubleAnimationUsingPath>
+
+
+            <!--DoesRotateWithTangent：角度是否要参与动画-->
+            <MatrixAnimationUsingPath Storyboard.TargetName="mt"
+                                      Storyboard.TargetProperty="Matrix"
+                                      DoesRotateWithTangent="True" Duration="0:0:5">
+                <MatrixAnimationUsingPath.PathGeometry>
+                    <!--表示移动的路径-->
+                    <PathGeometry Figures="M0 0 100,100 A100 50 0 0 1 400 150"/>
+                </MatrixAnimationUsingPath.PathGeometry>
+            </MatrixAnimationUsingPath>
+        </Storyboard>
+
+        <Storyboard x:Key="sb1">
+            <!--位移：可以操作translate对象的X或者Y-->
+            <DoubleAnimation Duration="0:0:1"
+                             To="200" AutoReverse="True"
+                             Storyboard.TargetName="b2Translate"
+                             Storyboard.TargetProperty="X">                
+            </DoubleAnimation>
+            <!--沿X方向移动200后还原--><!--
+            <DoubleAnimation Duration="0:0:1" BeginTime="0:0:1"
+                             Storyboard.TargetName="b2Translate"
+                             Storyboard.TargetProperty="X">
+            </DoubleAnimation>-->
+
+            <!--旋转：也可以通过给RotateTransform设置动画变换，改变角度-->
+            <DoubleAnimation Duration="0:0:1" RepeatBehavior="Forever"
+                             By="200" AutoReverse="True"
+                             Storyboard.TargetName="b3Rotate"
+                             Storyboard.TargetProperty="Angle">
+            </DoubleAnimation>
+
+            <!--如果对背景色的动画，必须要先为Background设置初始颜色，再通过Background.Color作为属性来做动画
+            （因为Background没有对应的动画类）-->
+            <ColorAnimation Duration="0:0:1"
+                            To="Blue"
+                            Storyboard.TargetName="border2"
+                            Storyboard.TargetProperty="Background.Color"></ColorAnimation>
+        </Storyboard>
+    </Window.Resources>
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="Loaded">
+            <BeginStoryboard Storyboard="{StaticResource sb}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="Button.Click" SourceName="btn">
+            <BeginStoryboard Storyboard="{StaticResource sb1}"/>
+        </EventTrigger>
+    </Window.Triggers>
+
+    <StackPanel x:Name="l">
+        <Border x:Name="border1" Width="50" Height="50" Background="Orange"></Border>
+        <Border x:Name="border2" Width="50" Height="50" Background="Orange">
+            <Border.RenderTransform>
+                <TranslateTransform X="0" x:Name="b2Translate"/>
+            </Border.RenderTransform>
+        </Border>
+        <Border x:Name="border3" Width="50" Height="50" Background="Orange">
+            <Border.RenderTransform>
+                <RotateTransform Angle="0" x:Name="b3Rotate"/>
+            </Border.RenderTransform>
+        </Border>
+        <Button x:Name="btn">点我</Button>
+
+        <TextBlock x:Name="txt"/>
+        <Border Background="Orange" Width="310">
+            <Ellipse Width="10" Height="10" Fill="White" HorizontalAlignment="Left">
+                <Ellipse.RenderTransform>
+                    <TranslateTransform x:Name="tt1" X="-10"/>
+                </Ellipse.RenderTransform>
+            </Ellipse>
+        </Border>
+
+        <Grid>
+            <Path Data="M0 0 100,100 A100 50 0 0 1 400 150" Stroke="Gray"
+                  StrokeThickness="1"/>
+            <StackPanel>
+                <Border Width="100" Height="40" Background="Orange"
+                        HorizontalAlignment="Left">
+                    <Border.RenderTransform>
+                        <TransformGroup>
+                            <!--图形变换的顺序非常重要-->
+                            <!--<RotateTransform x:Name="rt1"/>
+                            <TranslateTransform x:Name="tt"/>-->
+                            <MatrixTransform x:Name="mt"/>
+                        </TransformGroup>
+                    </Border.RenderTransform>
+                </Border>
+            </StackPanel>
+        </Grid>
+    </StackPanel>
+</Window>

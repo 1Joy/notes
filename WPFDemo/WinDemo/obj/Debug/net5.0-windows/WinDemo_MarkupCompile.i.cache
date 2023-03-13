@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET5_0;NETCOREAPP
 D:\docs\studyNotes\notes\WPFDemo\WinDemo\App.xaml
-8-507689619
+16405005806
 
-13-1957970410
-193-1891726104
-BindingWin.xaml;CustomerPanelWin.xaml;LayoutWin.xaml;MainWindow.xaml;NoBorderWin.xaml;StyleWin.xaml;TempleteWin.xaml;UserControl1.xaml;
+21-866950828
+1941735053043
+AnimationWin.xaml;BindingWin.xaml;CustomerControlWin.xaml;CustomerPanelWin.xaml;EventWin.xaml;LayoutWin.xaml;MainWindow.xaml;NoBorderWin.xaml;ShapeWin.xaml;StyleWin.xaml;TempleteWin.xaml;Themes\Generic.xaml;UCRouteEvent.xaml;UserControl1.xaml;UserControls\UserControl1.xaml;Views\BindingDemoWin.xaml;
 
 False
 

@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "3aGspbDBe5MIzyFvWM1Lvv7NyBrg5MvDjohJ/5G++tk1I5haePW28JtxiSz49Uxbe8v49Wfi5EBKxCywxRXSxQ==",
+  "success": true,
+  "projectFilePath": "D:\\docs\\studyNotes\\notes\\WPFDemo\\MVVMDemo\\MVVMDemo.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\JOY\\.nuget\\packages\\fody\\6.6.2\\fody.6.6.2.nupkg.sha512",
+    "C:\\Users\\JOY\\.nuget\\packages\\microsoft.xaml.behaviors.wpf\\1.1.39\\microsoft.xaml.behaviors.wpf.1.1.39.nupkg.sha512",
+    "C:\\Users\\JOY\\.nuget\\packages\\propertychanged.fody\\3.4.1\\propertychanged.fody.3.4.1.nupkg.sha512"
+  ],
+  "logs": []
+}

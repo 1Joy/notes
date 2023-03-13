@@ -1,0 +1,3 @@
+is_global = true
+build_property.RootNamespace = Receiver
+build_property.ProjectDir = D:\docs\studyNotes\notes\MQ\RabbitMQDemo\Receiver\

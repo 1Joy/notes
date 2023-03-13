@@ -7,10 +7,19 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="AnimationWin.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="BindingWin.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="CustomerControlWin.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="CustomerPanelWin.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="EventWin.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="LayoutWin.xaml.cs">
@@ -19,21 +28,42 @@
     <Compile Update="NoBorderWin.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="ShapeWin.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="StyleWin.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="TempleteWin.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="UCRouteEvent.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="UserControl1.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="UserControls\UserControl1.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\BindingDemoWin.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="AnimationWin.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="BindingWin.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="CustomerControlWin.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="CustomerPanelWin.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="EventWin.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="LayoutWin.xaml">
@@ -45,13 +75,28 @@
     <Page Update="NoBorderWin.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="ShapeWin.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="StyleWin.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="TempleteWin.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Themes\Generic.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="UCRouteEvent.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="UserControl1.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="UserControls\UserControl1.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\BindingDemoWin.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

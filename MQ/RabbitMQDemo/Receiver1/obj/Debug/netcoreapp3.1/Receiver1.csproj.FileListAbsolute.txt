@@ -6,7 +6,6 @@ D:\docs\studyNotes\notes\MQ\RabbitMQDemo\Receiver1\bin\Debug\netcoreapp3.1\Recei
 D:\docs\studyNotes\notes\MQ\RabbitMQDemo\Receiver1\bin\Debug\netcoreapp3.1\Receiver1.pdb
 D:\docs\studyNotes\notes\MQ\RabbitMQDemo\Receiver1\bin\Debug\netcoreapp3.1\RabbitMQ.Client.dll
 D:\docs\studyNotes\notes\MQ\RabbitMQDemo\Receiver1\bin\Debug\netcoreapp3.1\System.Threading.Channels.dll
-D:\docs\studyNotes\notes\MQ\RabbitMQDemo\Receiver1\obj\Debug\netcoreapp3.1\Receiver1.csprojAssemblyReference.cache
 D:\docs\studyNotes\notes\MQ\RabbitMQDemo\Receiver1\obj\Debug\netcoreapp3.1\Receiver1.AssemblyInfoInputs.cache
 D:\docs\studyNotes\notes\MQ\RabbitMQDemo\Receiver1\obj\Debug\netcoreapp3.1\Receiver1.AssemblyInfo.cs
 D:\docs\studyNotes\notes\MQ\RabbitMQDemo\Receiver1\obj\Debug\netcoreapp3.1\Receiver1.csproj.CoreCompileInputs.cache
@@ -14,3 +13,5 @@ D:\docs\studyNotes\notes\MQ\RabbitMQDemo\Receiver1\obj\Debug\netcoreapp3.1\Recei
 D:\docs\studyNotes\notes\MQ\RabbitMQDemo\Receiver1\obj\Debug\netcoreapp3.1\Receiver1.dll
 D:\docs\studyNotes\notes\MQ\RabbitMQDemo\Receiver1\obj\Debug\netcoreapp3.1\Receiver1.pdb
 D:\docs\studyNotes\notes\MQ\RabbitMQDemo\Receiver1\obj\Debug\netcoreapp3.1\Receiver1.genruntimeconfig.cache
+D:\docs\studyNotes\notes\MQ\RabbitMQDemo\Receiver1\obj\Debug\netcoreapp3.1\Receiver1.csproj.AssemblyReference.cache
+D:\docs\studyNotes\notes\MQ\RabbitMQDemo\Receiver1\obj\Debug\netcoreapp3.1\Receiver1.GeneratedMSBuildEditorConfig.editorconfig

@@ -31,7 +31,8 @@ namespace Receiver
 
             //FanoutModel(channel);
             //RoutingDirectModel(channel);
-            RoutingTopicModel(channel);
+            // RoutingTopicModel(channel);
+            RoutingDirectModel1(channel);
 
             //在消费者这一端，不建议关闭连接，因为监听消息是一个异步的，如果关闭了连接可能会造成监听不了消息
             Console.Read();
@@ -167,6 +168,27 @@ namespace Receiver
 
             //自动确认消息
             channel.BasicConsume(queueName, true, consumer);
+        }
+
+
+        public static void RoutingDirectModel1(IModel channel)
+        {
+            //省略绑定交换机步骤
+            channel.ExchangeDeclare("20220901exchange", "direct");
+            channel.QueueDeclare("20220901queue", false, false, false, null);
+            //绑定队列到交换机,此时需要指定绑定的路由
+            channel.QueueBind("20220901queue", "20220901exchange", "20220901queue");
+
+            //消费消息
+            //消费消息
+            var consumer = new EventingBasicConsumer(channel);
+            consumer.Received += (model, e) =>
+            {
+                Console.WriteLine($"消费消息{e.RoutingKey}:{Encoding.UTF8.GetString(e.Body.ToArray())}");
+            };
+
+            //自动确认消息
+            channel.BasicConsume("20220901queue", true, consumer);
         }
 
         /// <summary>

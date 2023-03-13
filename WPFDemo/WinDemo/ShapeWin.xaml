@@ -1,0 +1,424 @@
+﻿<Window x:Class="WinDemo.ShapeWin"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WinDemo"
+        mc:Ignorable="d"
+        Title="ShapeWin" Height="1000" Width="800">
+    <Grid>
+        <TabControl>
+            <TabItem Header="基本图形对象">
+                <ScrollViewer>
+                    <StackPanel>
+                        <!--直线-->
+                        <Line X1="0" Y1="0" X2="300" Y2="100" Stroke="Red" StrokeThickness="2"/>
+                        <Line X1="0" Y1="0" X2="{Binding RelativeSource={RelativeSource AncestorType=Window},
+                Path=ActualWidth}" Y2="100" Stroke="Red" StrokeThickness="2"/>
+
+                        <!--矩形：可以分别设置xy方向的圆角-->
+                        <Rectangle Height="80" Fill="Orange" RadiusX="30" RadiusY="50"/>
+
+                        <!--椭圆-->
+                        <Ellipse Width="300" Height="100" Fill="Blue"/>
+                        <Ellipse Width="100" Height="100" StrokeThickness="2" Stroke="Red"/>
+
+                        <!--多段线 Points：坐标1 坐标2 坐标3-->
+                        <Polyline Points="0,0 100,50 50,0 150,40" Stroke="AliceBlue" Fill="AntiqueWhite"/>
+
+                        <!--多边形，会封闭图形-->
+                        <Polygon Points="0,0 100,50 50,0 150,40" Stroke="Aqua" Fill="Aquamarine"/>
+                        <Polygon Points="0,0 100,50 50,0 150,40" Stroke="Aqua" StrokeThickness="2"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <TabItem Header="几何图形">
+                <ScrollViewer>
+                    <StackPanel>
+                        <!--几何图形不能设置线的颜色和粗细，只能在path上去设置-->
+                        <Path Stroke="Red" StrokeThickness="2">
+                            <Path.Data>
+                                <!--直线-->
+                                <LineGeometry StartPoint="0,0" EndPoint="100,50"/>
+                            </Path.Data>
+                        </Path>
+
+                        <Path Stroke="Red" StrokeThickness="2" Fill="AliceBlue">
+                            <Path.Data>
+                                <!--矩形：左上角的点坐标，右下角的点坐标-->
+                                <RectangleGeometry Rect="0,0,100,50"/>
+                            </Path.Data>
+                        </Path>
+
+                        <Path Stroke="Red" StrokeThickness="2" Fill="Yellow">
+                            <Path.Data>
+                                <!--椭圆： Center：中心点坐标，RadiusX：X方向半径，RadiusY：Y轴方向半径-->
+                                <EllipseGeometry  Center="0,0" RadiusX="100" RadiusY="10"/>
+                            </Path.Data>
+                        </Path>
+
+                        <Path Stroke="Red" StrokeThickness="2" Fill="Yellow">
+                            <Path.Data>
+                                <!--组合图形-->
+                                <GeometryGroup>
+                                    <LineGeometry StartPoint="0,0" EndPoint="100,50"/>
+                                    <LineGeometry StartPoint="0,50" EndPoint="100,0"/>
+                                    <RectangleGeometry Rect="0,0,100,50"/>
+                                    <EllipseGeometry  Center="50,25" RadiusX="25" RadiusY="25"/>
+                                </GeometryGroup>
+                            </Path.Data>
+                        </Path>
+
+                        <Path Stroke="Red" StrokeThickness="2" Fill="Yellow">
+                            <Path.Data>
+                                <!--合并图形：
+                                    GeometryCombineMode.Intersect：保留交集
+                                    GeometryCombineMode.Union：保留并集
+                                    GeometryCombineMode.Exclude：保留除开重叠的部分
+                                    GeometryCombineMode.Xor：保留除开重叠的部分                            
+                                -->
+                                <CombinedGeometry GeometryCombineMode="Union">
+                                    <CombinedGeometry.Geometry1>
+                                        <RectangleGeometry Rect="0,0,100,50"/>
+                                    </CombinedGeometry.Geometry1>
+                                    <CombinedGeometry.Geometry2>
+                                        <EllipseGeometry  Center="50,25" RadiusX="25" RadiusY="25"/>
+                                    </CombinedGeometry.Geometry2>
+                                </CombinedGeometry>
+                            </Path.Data>
+                        </Path>
+
+                        <Path Stroke="Red" StrokeThickness="2">
+                            <Path.Data>
+                                <PathGeometry>
+                                    <!--起始点为0，0，到200，50这个位置用直线绘制，到100，60这个位置用直线绘制
+                                    ，300，400这个位置用弧线绘制
+                                    每个segment的起始点为上一个segment的结束位置-->
+                                    <PathFigure StartPoint="0,0">
+                                        <LineSegment Point="200,50"/>
+                                        <LineSegment Point="100,60"/>
+                                        <!--RotationAngle：弧线的旋转角度
+                                        SweepDirection：弧线绘制方向；Clockwise：顺时针
+                                        IsLargeArc：是否显示大弧
+                                        Point：弧线的结束位置-->
+                                        <ArcSegment Size="100,40" RotationAngle="90" SweepDirection="Clockwise"
+                                                    IsLargeArc="True" Point="300,40"/>
+                                        <ArcSegment Size="100,40" RotationAngle="90" SweepDirection="Clockwise"
+                                                    IsLargeArc="True" Point="100,60"/>
+                                    </PathFigure>
+                                </PathGeometry>
+                            </Path.Data>
+                        </Path>
+
+                        <Path Stroke="Red" StrokeThickness="2">
+                            <Path.Data>
+                                <!--需要通过后台代码添加里面的绘制元素-->
+                                <StreamGeometry x:Name="streamGeometry"/>
+                            </Path.Data>
+                        </Path>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <TabItem Header="Path">
+                <ScrollViewer>
+                    <StackPanel>
+                        <!--M：移动起始点到100,50这个位置；data必须以M开始
+                            m：相对于上一个点移动起始点-->
+                        <Path Data="M100,50"/>
+                        <!--L：画直线；将起始点移动到200,0的位置画一条直线，终止位置为100,50
+                            l：画直线；将起始点移动到200,0的位置（相当于坐标原点）画一条直线，终止位置为100,50-->
+                        <Path Data="M200,0L100,50" Stroke="Red" StrokeThickness="2"/>                        
+                        <Path Data="M200,0l100,50" Stroke="Green" StrokeThickness="2"/>                        
+                        <Path Data="M200,0L100,50 M200,50L100,0" Stroke="Red" StrokeThickness="2"/>
+
+                        <!--H：在水平方向到指定X坐标点画一条直线
+                            h：在水平方向从起始位置(相当于是坐标原点)到指定X坐标点画一条直线
+                            V：在垂直方向到指定Y坐标点画一条直线
+                            v：在垂直方向从起始位置(相当于是坐标原点到指定Y坐标点画一条直线-->
+                        <Path Data="M50,0H300" Stroke="Green" StrokeThickness="5"/>
+                        <Path Data="M50,10h300" Stroke="Green" StrokeThickness="5"/>
+                        <Path Data="M0,10V50" Stroke="red" StrokeThickness="5"/>
+                        <Path Data="M10,10v50" Stroke="red" StrokeThickness="5"/>
+                        
+                        <!--A：画圆弧：圆弧的宽度，高度，旋转角度，是否是优势弧，绘制方向（0：逆时针；1：顺时针），圆弧的结束坐标
+                            a：使用相对坐标画圆弧-->
+                        <Path Data="M0,0A100 50 45 1 0 300 50" Stroke="Red" StrokeThickness="2"/>
+                        <Path Data="M50,0A100 50 45 1 1 300 50" Stroke="Red" StrokeThickness="2"/>
+                        <Path Data="M50,0a100 50 45 1 1 300 50" Stroke="Green" StrokeThickness="2"/>
+
+                        <!--贝塞尔曲线相切与起始到控制点，控制点到结束点的直线
+                            Q：画二次贝塞尔曲线：控制点坐标 结束点坐标
+                            q：使用相对坐标-->
+                        <Path Data="M50,50Q200,50 100,100" Stroke="Red" StrokeThickness="2"/>
+                        <Path Data="M50,50q200,50 100,100" Stroke="Red" StrokeThickness="2"/>
+
+                        <!--T：平滑T；曲线通过两个点-->
+                        <Path Data="M50,50T200,50 100,100" Stroke="Red" StrokeThickness="2"/>
+                        
+                        <!--C：三次贝塞尔曲线：控制点1坐标，控制点2坐标，结束点坐标-->
+                        <Path Data="M50,50C200,50 100,100 300,200" Stroke="Red" StrokeThickness="2"/>
+
+                        <!--z：闭合图形-->
+                        <Path Data="M50,50C200,50 100,100 300,200z" Stroke="Red" StrokeThickness="2"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <TabItem Header="图形变换">
+                <StackPanel>
+                    <GroupBox Header="位移">
+                        <WrapPanel>
+                            <Button Content="位移" Width="80" Height="50"/>
+                            <Button Content="位移" Width="80" Height="50">
+                                <!--需要进行布局的重新排列-->
+                                <!--<Button.LayoutTransform>
+                                    <TranslateTransform X="60"/>
+                                </Button.LayoutTransform>-->
+
+                                <Button.RenderTransform>
+                                    <TranslateTransform X="50" Y="5"/>
+                                </Button.RenderTransform>
+                            </Button>
+                        </WrapPanel>
+                    </GroupBox>
+                    <GroupBox Header="旋转">
+                        <WrapPanel>
+                            <Button Content="旋转" Width="80" Height="50"/>
+                            <!--RenderTransformOrigin：指定旋转中心点（百分比）；默认0,0-->
+                            <Button Content="旋转" Width="80" Height="50" RenderTransformOrigin="0.5,0.5">
+                                <Button.RenderTransform>
+                                    <RotateTransform Angle="45"/>
+                                </Button.RenderTransform>
+                            </Button>
+                            <Button Content="旋转" Width="80" Height="50">
+                                <Button.RenderTransform>
+                                    <RotateTransform Angle="45" CenterX="40" CenterY="25"/>
+                                </Button.RenderTransform>
+                            </Button>
+                        </WrapPanel>
+                    </GroupBox>
+                    <GroupBox Header="缩放">
+                        <WrapPanel>
+                            <Button Content="缩放" Width="80" Height="50"/>
+                            <Button Content="缩放" Width="80" Height="50">
+                                <Button.RenderTransform>
+                                    <!--X,Y方向缩放（百分比）；默认为1-->
+                                    <ScaleTransform ScaleX="2" ScaleY="2"/>
+                                </Button.RenderTransform>
+                            </Button>
+                        </WrapPanel>
+                    </GroupBox>
+                    <GroupBox Header="斜切">
+                        <WrapPanel>
+                            <Button Content="斜切" Width="80" Height="50"/>
+                            <!--默认变换起点在控件左上角0,0-->
+                            <Button Content="斜切" Width="80" Height="50">
+                                <Button.RenderTransform>
+                                    <SkewTransform AngleX="10" AngleY="20"/>
+                                </Button.RenderTransform>
+                            </Button>
+                            <Button Content="斜切" Width="80" Height="50">
+                                <Button.RenderTransform>
+                                    <SkewTransform AngleX="-10" AngleY="-20"/>
+                                </Button.RenderTransform>
+                            </Button>
+                            <!--RenderTransformOrigin：指定变换起点-->
+                            <Button Content="斜切" Width="80" Height="50" RenderTransformOrigin="0.5,0.5">
+                                <Button.RenderTransform>
+                                    <SkewTransform AngleX="-10" AngleY="-20"/>
+                                </Button.RenderTransform>
+                            </Button>
+                        </WrapPanel>
+                    </GroupBox>
+                    <GroupBox Header="矩阵">
+                        <WrapPanel>
+                            <Button Content="矩阵" Width="80" Height="50"/>
+                            <Button Content="矩阵" Width="80" Height="50">
+                                <Button.RenderTransform>
+                                    <!--Matrix：X方向缩放参数，Y方向斜切，X方向斜切，Y方向缩放参数 位移X，位移Y-->
+                                    <MatrixTransform Matrix="2,0.5 0.6,3 0,0"/>
+                                </Button.RenderTransform>
+                            </Button>
+                        </WrapPanel>
+                    </GroupBox>
+                    <GroupBox Header="集合变换">
+                        <WrapPanel>
+                            <Button Content="集合变换" Width="80" Height="50"/>
+                            <Button Content="集合变换" Width="80" Height="50" RenderTransformOrigin="0.5,0.5">
+                                <Button.RenderTransform>
+                                    <TransformGroup>
+                                        <SkewTransform AngleX="10" AngleY="20"/>
+                                        <ScaleTransform ScaleX="2" ScaleY="2"/>
+                                        <TranslateTransform X="20"/>
+                                    </TransformGroup>
+                                </Button.RenderTransform>
+                            </Button>
+
+                            <Button Content="集合变换" Width="80" Height="50" RenderTransformOrigin="0.5,0.5">
+                                <Button.RenderTransform>
+                                    <TransformGroup>
+                                        <TranslateTransform X="20"/>
+                                        <SkewTransform AngleX="10" AngleY="20"/>                                      
+                                        <ScaleTransform ScaleX="2" ScaleY="2"/>
+                                        
+                                    </TransformGroup>
+                                </Button.RenderTransform>
+                            </Button>
+                        </WrapPanel>
+                    </GroupBox>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="画刷">
+                <StackPanel>
+                    <GroupBox Header="画刷">
+                        <Border Height="50">
+                            <Border.Background>
+                                <SolidColorBrush Color="Orange"/>
+                            </Border.Background>
+                        </Border>
+                    </GroupBox>
+
+                    <GroupBox Header="线性渐变">
+                        <StackPanel>
+                            <Border Height="50">
+                                <Border.Background>
+                                    <!--垂直方向-->
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                        <GradientStop Color="Green" Offset="0"/>
+                                        <GradientStop Color="Red" Offset="0.5"/>
+                                        <GradientStop Color="Orange" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                            </Border>
+
+                            <Border Height="50" Margin="0,5">
+                                <Border.Background>
+                                    <!--水平方向-->
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                        <GradientStop Color="Green" Offset="0"/>
+                                        <GradientStop Color="Red" Offset="0.5"/>
+                                        <GradientStop Color="Orange" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                            </Border>
+                            <Border Height="50" Margin="0,5" Width="50">
+                                <Border.Background>
+                                    <!--水平方向-->
+                                    <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0">
+                                        <GradientStop Color="Green" Offset="0"/>
+                                        <GradientStop Color="Red" Offset="0.5"/>
+                                        <GradientStop Color="Orange" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                            </Border>
+                        </StackPanel>
+                        
+                    </GroupBox>
+
+                    <GroupBox Header="镜像渐变">
+                        <StackPanel>
+                            <Border Height="50" Margin="0,5">
+                                <Border.Background>
+                                    <RadialGradientBrush>
+                                        <GradientStop Color="Green" Offset="0"/>
+                                        <GradientStop Color="Orange" Offset="0.5"/>
+                                        <GradientStop Color="Red" Offset="1"/>
+                                    </RadialGradientBrush>
+                                </Border.Background>
+                            </Border>
+
+                            <Border Height="50" Margin="0,5">
+                                <Border.Background>
+                                    <!--GradientOrigin：镜像起始点
+                                        Center：镜像圆的中心点-->
+                                    <RadialGradientBrush GradientOrigin="0,0.5" Center="0,0.5">
+                                        <GradientStop Color="Green" Offset="0"/>
+                                        <GradientStop Color="Orange" Offset="0.5"/>
+                                        <GradientStop Color="Red" Offset="1"/>
+                                    </RadialGradientBrush>
+                                </Border.Background>
+                            </Border>
+                        </StackPanel>
+                    </GroupBox>
+
+                    <GroupBox Header="DrawingBrush">
+                        <Border Height="50">
+                            <Border.Background>
+                                <!--TileMode：以什么方式填充
+                                ViewportUnits：视口里面宽度是绝对宽度还是相对宽度
+                                Viewport：视口大小：起始位置，X方向宽度，Y方向宽度-->
+                                <DrawingBrush TileMode="FlipX" ViewportUnits="Absolute" Viewport="0,0,10,20">
+                                    <DrawingBrush.Drawing>
+                                        <GeometryDrawing>
+                                            <GeometryDrawing.Pen>
+                                                <Pen Brush="Red" Thickness="1"/>
+                                            </GeometryDrawing.Pen>
+                                            <GeometryDrawing.Geometry>
+                                                <GeometryGroup>
+                                                    <LineGeometry StartPoint="0,0" EndPoint="0,20"/>
+                                                    <LineGeometry StartPoint="0,20" EndPoint="20,20"/>
+                                                </GeometryGroup>
+                                            </GeometryDrawing.Geometry>
+                                        </GeometryDrawing>
+                                    </DrawingBrush.Drawing>
+                                </DrawingBrush>
+                            </Border.Background>
+                        </Border>
+                    </GroupBox>
+
+                    <GroupBox Header="VisualBrush">
+                        <StackPanel>
+                            <TextBox Text="hello Joy" x:Name="tb">
+                                <TextBox.Effect>
+                                    <!--BlurEffect：模糊，值越大越模糊-->
+                                    <BlurEffect Radius="3"></BlurEffect>
+                                </TextBox.Effect>
+                            </TextBox>                            
+                            <Border Height="50">
+                                <Border.Background>
+                                    <!--把visual的子对象的所有内容渲染到背景上去-->
+                                    <VisualBrush Visual="{Binding ElementName=tb}"/>
+                                </Border.Background>
+                            </Border>
+
+                            <Border Height="50">
+                                <Border.Background>
+                                    <BitmapCacheBrush Target="{Binding ElementName=tb}">
+                                        <BitmapCacheBrush.BitmapCache>
+                                            <!--把对象渲染到背景
+                                            RenderAtScale：犀利程度-->
+                                            <BitmapCache SnapsToDevicePixels="True" RenderAtScale="2"/>
+                                        </BitmapCacheBrush.BitmapCache>
+                                    </BitmapCacheBrush>
+                                </Border.Background>
+                            </Border>
+                        </StackPanel>
+                    </GroupBox>
+
+                    <GroupBox Header="阴影">
+                        <StackPanel>
+                            <Border Height="50" Width="50">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0">
+                                        <GradientStop Color="AliceBlue" Offset="0"/>
+                                        <GradientStop Color="YellowGreen" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                                <Border.Effect>
+                                    <!--BlurRadius：阴影模糊程度
+                                        ShadowDepth：阴影往偏移方向的深度
+                                        Direction：偏移方向
+                                        Color：颜色-->
+                                    <DropShadowEffect BlurRadius="10" ShadowDepth="0" Direction="0" Color="Aquamarine"/>
+                                </Border.Effect>
+                            </Border>
+                        </StackPanel>
+                    </GroupBox>
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+
+    </Grid>
+</Window>
