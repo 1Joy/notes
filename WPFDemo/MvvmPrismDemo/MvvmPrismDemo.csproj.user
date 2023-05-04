@@ -7,21 +7,39 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="DialogWindowBase.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="LoginWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="ViewTest\DialogContent.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="ViewTest\MainTest.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="ViewTest\RegionContentView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="DialogWindowBase.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="LoginWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="ViewTest\DialogContent.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="ViewTest\MainTest.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="ViewTest\RegionContentView.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

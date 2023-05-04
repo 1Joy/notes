@@ -91,7 +91,7 @@ namespace MvvmPrismDemo
 
             });
 
-            //第三种方式：扫描文件
+            //第三种方式：配置文件App.config
         }
 
         /// <summary>
