@@ -1,8 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "YNWQfULs8Cv2CCA2MpcSo21T70PBQiLRYsBE18UUNVggl4axE6Lc/udPRcEo+hRonljXRm6yVXLLq/Q8baTDeQ==",
+  "dgSpecHash": "qNT/2h7qTujW6DUUu2TsWXTfNl9yClaWXMbnHke3MyMkUYGul9dMnBzVrw/QHqtXx31cjBpyff+t86bc6wF42w==",
   "success": true,
-  "projectFilePath": "D:\\docs\\studyNotes\\notes\\WPFDemo\\WpfBinding\\WpfBinding.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "E:\\workspace\\notes\\WPFDemo\\WpfBinding\\WpfBinding.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Joy\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\5.0.0\\microsoft.windowsdesktop.app.ref.5.0.0.nupkg.sha512",
+    "C:\\Users\\Joy\\.nuget\\packages\\microsoft.netcore.app.ref\\5.0.0\\microsoft.netcore.app.ref.5.0.0.nupkg.sha512",
+    "C:\\Users\\Joy\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\5.0.0\\microsoft.aspnetcore.app.ref.5.0.0.nupkg.sha512",
+    "C:\\Users\\Joy\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\5.0.17\\microsoft.netcore.app.host.win-x64.5.0.17.nupkg.sha512"
+  ],
   "logs": []
 }

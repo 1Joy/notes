@@ -1,10 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "/g7BIKXowU/V9Uj1SePyFCAUK+afdNBUu+cuPJaxBMx+Ay/GzUMXMY74ivDmQUiC33JBVc6FUcYKC2p3/XQokg==",
+  "dgSpecHash": "Nbf7BgQ+BBLgRPMu7/F40fEpFRW1CEEpRh/X54qH4JwMo7qn+CEVhv/xMMbFjBw/7Ar6wWbLwHyKAoqDtew50w==",
   "success": true,
-  "projectFilePath": "D:\\docs\\studyNotes\\notes\\WPFDemo\\WinDemo\\WinDemo.csproj",
+  "projectFilePath": "E:\\workspace\\notes\\WPFDemo\\WinDemo\\WinDemo.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\JOY\\.nuget\\packages\\microsoft.xaml.behaviors.wpf\\1.1.39\\microsoft.xaml.behaviors.wpf.1.1.39.nupkg.sha512"
+    "C:\\Users\\Joy\\.nuget\\packages\\microsoft.xaml.behaviors.wpf\\1.1.39\\microsoft.xaml.behaviors.wpf.1.1.39.nupkg.sha512",
+    "C:\\Users\\Joy\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\5.0.0\\microsoft.windowsdesktop.app.ref.5.0.0.nupkg.sha512",
+    "C:\\Users\\Joy\\.nuget\\packages\\microsoft.netcore.app.ref\\5.0.0\\microsoft.netcore.app.ref.5.0.0.nupkg.sha512",
+    "C:\\Users\\Joy\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\5.0.0\\microsoft.aspnetcore.app.ref.5.0.0.nupkg.sha512",
+    "C:\\Users\\Joy\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\5.0.17\\microsoft.netcore.app.host.win-x64.5.0.17.nupkg.sha512"
   ],
   "logs": []
 }

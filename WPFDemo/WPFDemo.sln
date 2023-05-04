@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30804.86
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33414.496
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPFDemo", "WPFDemo\WPFDemo.csproj", "{A14B95F0-B85F-4CC4-95E9-E457575B6961}"
 EndProject
@@ -21,11 +21,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PanelDemo", "PanelDemo\Pane
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WinDemo", "WinDemo\WinDemo.csproj", "{9BA3A169-C650-429A-A40E-3A4D4BE64164}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVVMDemo", "MVVMDemo\MVVMDemo.csproj", "{19207D26-6F7E-407B-B947-70ECD497BE3C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MVVMDemo", "MVVMDemo\MVVMDemo.csproj", "{19207D26-6F7E-407B-B947-70ECD497BE3C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvvmLightCoreDemo", "MvvmLightCoreDemo\MvvmLightCoreDemo.csproj", "{10A2CF2E-B94C-4987-A483-FC807D3E7207}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MvvmLightCoreDemo", "MvvmLightCoreDemo\MvvmLightCoreDemo.csproj", "{10A2CF2E-B94C-4987-A483-FC807D3E7207}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvvmLightFWDemo", "MvvmLightFWDemo\MvvmLightFWDemo.csproj", "{2513A3D6-7979-4F23-8493-8F6D0D4B0F9A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MvvmPrismDemo", "MvvmPrismDemo\MvvmPrismDemo.csproj", "{B92883CF-A381-4288-ACC6-9B8E4FD420B0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvvmPrismDemo.Module1", "MvvmPrismDemo.Module1\MvvmPrismDemo.Module1.csproj", "{1684C01E-FD30-4BF3-A10F-A9980C040468}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -81,6 +85,14 @@ Global
 		{2513A3D6-7979-4F23-8493-8F6D0D4B0F9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2513A3D6-7979-4F23-8493-8F6D0D4B0F9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2513A3D6-7979-4F23-8493-8F6D0D4B0F9A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B92883CF-A381-4288-ACC6-9B8E4FD420B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B92883CF-A381-4288-ACC6-9B8E4FD420B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B92883CF-A381-4288-ACC6-9B8E4FD420B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B92883CF-A381-4288-ACC6-9B8E4FD420B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1684C01E-FD30-4BF3-A10F-A9980C040468}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1684C01E-FD30-4BF3-A10F-A9980C040468}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1684C01E-FD30-4BF3-A10F-A9980C040468}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1684C01E-FD30-4BF3-A10F-A9980C040468}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

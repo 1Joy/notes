@@ -201,7 +201,7 @@ window、page
      - WindowChrome.IsHitTestVisibleInChrome="True"：是否允许其他在边框区域的控件获取焦点
 
       ```
-   <WindowChrome.WindowChrome>
+     <WindowChrome.WindowChrome>
            <WindowChrome CaptionHeight="50" 
                          UseAeroCaptionButtons="False"/>
        </WindowChrome.WindowChrome>
@@ -633,7 +633,7 @@ window、page
 
      1. 可以被绑定
    2. 变化可以被通知
-     
+   
    - 使用
 
      1. 定义
@@ -1450,10 +1450,16 @@ window、page
           > <TextBlock Text="{Binding Path=(Validation.Errors)[0].ErrorContent,ElementName=tb4}"/>
           > ```
 
+       5. 通过实现INotifyDataErrorInfo1接口实现数据验证和异常信息获取
+
+          >
+          >
+          >
+     
      - 多重绑定
-
+     
        将多个属性绑定到一个控件上去
-
+     
        ```xaml
        <TextBlock>
            <TextBlock.Text>
@@ -1464,9 +1470,9 @@ window、page
            </TextBlock.Text>
        </TextBlock>
        ```
-
+     
        或者通过多值转换器绑定
-
+     
        ```c#
        public class ValueMultiConverter : IMultiValueConverter
        {
@@ -1495,11 +1501,11 @@ window、page
            </TextBlock.Text>
        </TextBlock>
        ```
-
+     
      - 优先级绑定——PriorityBinding
-
+     
        绑定的多个值并不是全部显示，而是根据优先级顺序显示。如果高优先级的值没有被成功赋值，会显示低优先级的值。
-
+     
        ```xaml
        <TextBox>
            <PriorityBinding FallbackValue="正在获取数据.....">
@@ -3632,6 +3638,1202 @@ WPF动画：
           
 
        8. 
+
+     - 
+
+  2. Prism
+
+     - 主要程序集
+
+       1. Prism.Core：实现MVVM的核心功能，属于一个与平台无关的项目，prism.dll
+       2. Prism.Wpf：包含DialogService、Regin、Module、Navigation ,以及其他的一些WPF的功能，prism.wpf.dll
+       3. Prism.Unity\Prism.DryIoc：IOC容器，prism.unity.wpf.dll、Prism.DryIoc.wpf.dll
+
+     - 常用对象
+
+       1. BindableBase
+
+          ```c#
+          public class MainWindowViewModek:BindableBase
+              {
+          
+          		private int _value1;
+          
+          		public int Value1
+          		{
+          			get { return _value1; }
+          			set { _value1 = value; }
+          		}
+          
+          
+          		private int _value;
+          
+          		public int Value
+          		{
+          			get { return _value; }
+          			set { 
+          				//属性的五种通知方式
+          
+          				//第一种方式
+          				SetProperty(ref _value, value);
+          
+          				//第二种方式
+          				this.OnPropertyChanged(new System.ComponentModel.PropertyChangedEventArgs(nameof(Value)));
+          
+          				//第三种方式
+          				this.RaisePropertyChanged();
+          
+          				//第四种方式：可以通知到另一个属性
+          				SetProperty(ref _value, value,"Value1");
+          
+          				//第五种方式
+          				SetProperty(ref _value, value, OnValueChanged);
+          			}
+          		}
+          
+          		private void OnValueChanged()
+          		{
+          			//当属性变化时，执行某些操作,SetProperty()方法内部会自动判断是否会更新值，如果更新才会触发改变事件
+          		}
+          
+          	}
+          ```
+
+          
+
+       2. ErrorContainer：异常处理
+
+          对属性做校验，校验失败时添加异常描述。可与INotifyDataErrorInfo结合使用
+
+          ```c#
+           public class MainWindowViewModek:BindableBase,INotifyDataErrorInfo
+              {
+          		private int _value;
+          
+          		public int Value
+          		{
+          			get { return _value; }
+          			set {
+          
+          				if (value > 50)
+          				{
+                              //添加异常描述，会触发事件回调OnErrorContainerCreate()
+                              _errorsContainer.SetErrors(nameof(value), new string[] { "值不能大于50" });
+          				}
+          				//第一种方式
+          				SetProperty(ref _value, value);
+          			}
+          		}
+          
+          		private ErrorsContainer<string> _errorsContainer;
+          
+          		public ErrorsContainer<string> ErrorsContainer
+          		{
+          			get {
+          				if(_errorsContainer is null)
+          				{
+          					//创建异常容器，
+          					_errorsContainer = new ErrorsContainer<string>(OnErrorContainerCreate);
+          				}
+          				return _errorsContainer; }
+          			set { _errorsContainer = value; }
+          		}
+          
+          		private void OnErrorContainerCreate(string arg)
+          		{
+          			//触发异常消息的添加
+          			ErrorsChanged?.Invoke(this,new DataErrorsChangedEventArgs(arg));
+          		}
+          
+          		#region INotifyDataErrorInfo
+          
+          		//是否存在异常
+          		public bool HasErrors => ErrorsContainer.HasErrors;
+                  public IEnumerable GetErrors(string? propertyName)
+                  {
+                     return _errorsContainer.GetErrors(propertyName);
+                  }
+          
+          		//通知，通知到属性的ValidationError
+                  public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
+                  #endregion
+          ```
+
+          
+
+       3. DelegateCommand：行为处理
+
+          - 基本用法
+
+            ```c#
+            //基本使用，只是关联了一个行为过程
+            public ICommand BtnCommand { get => new DelegateCommand(BtnCommandHandler);  }
+            
+             private void BtnCommandHandler()
+            {
+            			///todo
+            }
+            ```
+
+            
+
+          - 状态检查
+
+            ```c#
+            public ICommand BtnCheckCommand { get => new DelegateCommand(BtnCommandHandler,CanExecute); }
+            
+            public DelegateCommand BtnCheckCommand1 { get; set; }
+            
+            private bool _canExecuteProp;
+            
+            public bool CanExecuteProp
+            {
+            	get { 
+                    //命令状态检查逻辑
+                    return Value==50;
+            	}
+            	set { _canExecuteProp = value; }
+            }
+            
+            private void InitCmd()
+            {
+            	//初始化命令,如果要使用RaiseCanExecuteChanged()等功能，最好是在构造函数中进行命令的初始化
+            	//命令状态检查的第一种方式
+                //利用RaiseCanExecuteChanged进行手动触发
+                //BtnCheckCommand1 = new DelegateCommand(BtnCommandHandler,CanExecute);
+            
+                //命令状态检查的第二种方式
+                //ObservesProperty：表示监听一个或多个属性的变化，当有属性值发生变化时，自动进行命令状态检查；就不需要手动触发RaiseCanExecuteChanged
+                //可同时通过ObservesProperty监听多个属性
+                //BtnCheckCommand1 = new DelegateCommand(BtnCommandHandler, CanExecute).ObservesProperty(()=>Value);
+                // BtnCheckCommand1 = new DelegateCommand(BtnCommandHandler, CanExecute).ObservesProperty(() => Value).ObservesProperty(()=>Value1);
+            
+                //命令状态检查的第三种方式
+                //ObservesCanExecute：通过观察一个属性来判断是否能够执行命令，且该属性必须是一个bool类型
+                //ObservesCanExecute()的判断优先级高于在初始化时传入的canExecute()
+                BtnCheckCommand1 = new DelegateCommand(BtnCommandHandler).ObservesCanExecute(()=> CanExecuteProp);
+            }
+            
+            private void BtnCommandHandler()
+            {
+            			///todo
+            }
+            
+            private bool CanExecute()
+            {
+                        ///todo,自定义属性状态检查
+                        //true:表示命令可用；false:表示命令不可用
+                        //(BtnCheckCommand as DelegateCommand)?.RaiseCanExecuteChanged();通过此方法触发CanExecute()执行
+                        return true;
+            }
+            ```
+
+            
+
+          - 异步处理
+
+            prism命令自带进行异步处理
+
+            ```c#
+            public DelegateCommand BtnAsyncCommand { get; set; }
+            BtnAsyncCommand = new DelegateCommand(BtnCommandAsyncHandler);
+            private async void BtnCommandAsyncHandler()
+            {
+                await Task.Delay(50);
+                ///todo
+            }
+            ```
+
+            
+
+          - 泛型参数
+
+            **命令参数的类型必须是引用类型才可以**
+
+          - 事件命令：InvokeCommandAction
+
+            将控件的事件转换为命令
+
+            ```c#
+            public DelegateCommand<object> BtnEventCommand { get; set; }
+            BtnEventCommand = new DelegateCommand<object>(BtnEventCommandHandler);
+            private void BtnEventCommandHandler(object args)
+            {
+                //args：表示触发的控件事件里面的参数eventargs，如果前端页面不指定参数
+                //args：如果前端页面指定里TriggerParameterPath属性，那么参数的值为指定属性的值
+            }
+            ```
+
+            ```xaml
+            //添加引用
+            xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+            xmlns:prism="http://prismlibrary.com/"
+            
+            <ComboBox SelectedIndex="0">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <prism:InvokeCommandAction Command="{Binding BtnEventCommand}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <ComboBoxItem Content="11"/>
+                <ComboBoxItem Content="22"/>
+                <ComboBoxItem Content="33"/>
+                <ComboBoxItem Content="44"/>
+                <ComboBoxItem Content="55"/>
+            </ComboBox>
+            
+            <ComboBox SelectedIndex="0">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <prism:InvokeCommandAction Command="{Binding BtnEventCommand}" TriggerParameterPath="Handled"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <ComboBoxItem Content="11"/>
+                <ComboBoxItem Content="22"/>
+                <ComboBoxItem Content="33"/>
+                <ComboBoxItem Content="44"/>
+                <ComboBoxItem Content="55"/>
+            </ComboBox>
+            ```
+
+            
+
+          - 
+
+       4. CompositeCommand：复合命令
+
+          把多个其他的命令绑定在一个复合命令上，由一个复合命令统一执行,同时也不会影响其他命令单独执行
+
+          - 第一步：创建一个复合命令
+
+            ```c#
+            public CompositeCommand CustomCompositeCommand { get; set; }
+            
+            public void InitCmd1()
+            {
+                CustomCompositeCommand = new CompositeCommand();
+            }
+            ```
+
+          - 第二部：将其他基本命令注册到复合命令上
+
+            ```c#
+            public void InitCmd1()
+            {
+                CustomCompositeCommand = new CompositeCommand();
+            
+                CustomCommand1 = new DelegateCommand(() => { });
+                CustomCommand2 = new DelegateCommand(() => { });
+                CustomCompositeCommand.RegisterCommand(CustomCommand1);
+                CustomCompositeCommand.RegisterCommand(CustomCommand2);
+            }
+            ```
+
+       5. 项目初始化
+
+          - PrismBootstrapper（prism.Unity）
+
+            1. 第一步：创建初始化Ioc容器类
+
+               ```c#
+               public class Bootstrapper : PrismBootstrapper
+               {
+                   /// <summary>
+                   /// 创建主窗口
+                   /// </summary>
+                   /// <returns></returns>
+                   /// <exception cref="NotImplementedException"></exception>
+                   protected override DependencyObject CreateShell()
+                   {
+                       //创建MainWindow的实例，进行窗口显示
+                       return Container.Resolve<MainWindow>();
+                   }
+               
+                   protected override void RegisterTypes(IContainerRegistry containerRegistry)
+                   {
+                       throw new NotImplementedException();
+                   }
+               }
+               ```
+
+               
+
+            2. 第二步：删除App.xaml中的startUri
+
+            3. 第三步：App.xaml.cs中初始化
+
+               ```c#
+               /// <summary>
+               /// Interaction logic for App.xaml
+               /// </summary>
+               public partial class App : Application
+               {
+                   public App()
+                   {
+                       new Bootstrapper().Run();
+                   }
+               }
+               ```
+
+          - PrismApplication（prism.Unity/Prism.DryIoc）
+
+            1. 第一步：修改App.xaml文件
+
+               ```xaml
+               <prism:PrismApplication x:Class="MvvmPrismDemo.App"
+                            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                            xmlns:local="clr-namespace:MvvmPrismDemo"
+                            xmlns:prism="http://prismlibrary.com/">
+                   <Application.Resources>
+                        
+                   </Application.Resources>
+               </prism:PrismApplication>
+               ```
+
+            2. 第二步：修改App.xaml.cs
+
+               ```c#
+               public partial class App : PrismApplication
+               {
+                   public App()
+                   {
+                       //new Bootstrapper().Run();
+                   }
+               
+                   protected override Window CreateShell()
+                   {
+                       //创建MainWindow的实例，进行窗口显示
+                       //通过IOC容器负责创建对象，可以对所需的对象进行统一管理，并且所需要的其他对象可自动进行创建
+                       return Container.Resolve<MainWindow>();
+                   }
+               
+                   protected override void RegisterTypes(IContainerRegistry containerRegistry)
+                   {
+                   }
+               }
+               ```
+
+       6. ViewModelLocator
+
+          进行View与ViewModel的绑定
+
+          - prism:ViewModelLocator.AutoWireViewModel="True"（默认情况）
+
+            使用自动绑定vm需要满足以下条件：
+
+            1. view和viewModel必须位于同一个程序集下
+            2. viewModel类位于viewModels\viewModel文件夹内
+            3. view页面位于views\view文件夹内
+            4. viewModel名称与view名称对应且以ViewModel结尾（MainWindow=>MainWindowViewModel、LoginView=>LoginViewModel）
+
+            ![img](.\img\prismMVVM.png)
+
+          - 个性化匹配
+
+            **所有的view和viewModel都是通过Provider来匹配的**
+
+            1. 第一种方式：更改命名约定
+
+               ```c#
+               app.xaml.cs 
+               /// <summary>
+               /// 配置ViewModelLocator 的匹配规则
+               /// </summary>
+               protected override void ConfigureViewModelLocator()
+               {
+                   base.ConfigureViewModelLocator();
+                   ViewModelLocationProvider.SetDefaultViewTypeToViewModelTypeResolver(ViewToViewModelResolve);
+               }
+               
+               /// <summary>
+               /// 具体类型转换匹配实现
+               /// </summary>
+               /// <param name="type">需要进行匹配的View的类型</param>
+               /// <returns>需要匹配View的ViewModel的类型</returns>
+               private Type ViewToViewModelResolve(Type type)
+               {
+                   //在此处修改viewmodel的匹配规则
+                   string viewName = type.FullName;
+                   string viewModelName = viewName;
+                   if (viewName.Contains(".ViewTest."))
+                   {
+                       viewModelName = viewModelName.Replace(".ViewTest.", ".ViewModelTest.");
+                   }
+                   if (viewModelName.EndsWith("View"))
+                   {
+                       viewModelName += "Model";
+                   }
+                   else 
+                   {
+                       viewModelName += "ViewModel";
+                   }
+                   return Type.GetType(viewModelName);
+               }
+               ```
+
+               
+
+            2. 第二种方式：独立注册
+
+               > 1. 可能不在同一程序集
+               > 2. 对象不在指定的目录
+               > 3. 名称不匹配
+
+               ```c#
+               /// <summary>
+               /// 配置ViewModelLocator 的匹配规则
+               /// </summary>
+               protected override void ConfigureViewModelLocator()
+               {
+               base.ConfigureViewModelLocator();
+               
+               //临时注册一个view到ViewModel的关系
+               
+               //第一种方式：类型/类型
+               ViewModelLocationProvider.Register(typeof(MainWindow).ToString(), typeof(MainTestViewModel));
+               
+               //第二种方式：类型/工厂
+               ViewModelLocationProvider.Register(typeof(MainWindow).ToString(), () => Container.Resolve<MainTestViewModel>());
+               
+               //第三种方式：
+               ViewModelLocationProvider.Register<MainWindow>(() => Container.Resolve<MainTestViewModel>());
+               
+               //第四种方式
+               ViewModelLocationProvider.Register<MainWindow, MainTestViewModel>();
+               }
+               ```
+
+               
+
+            3. 
+
+          - 
+
+       7. 类型注入
+
+          **依赖抽象，不依赖具体实现**
+
+          ```c#
+          app.xaml.cs  
+          /// <summary>
+          /// ioc容器的对象注册
+          /// </summary>
+          /// <param name="containerRegistry"></param>
+          protected override void RegisterTypes(IContainerRegistry containerRegistry)
+          {
+              //注册IUserBLL的具体实现为UserBLL
+              containerRegistry.Register<IUserBLL, UserBLL>();
+          }
+          ```
+
+          - 构造函数注入
+
+            **如果构造函数内需要用到注入的属性，需要使用构造函数注入的方式，因为可能属性注入对象的创建慢于构造函数注入**
+
+          - 属性注入
+
+            ```c#
+            using Unity;
+            
+            [Dependency]
+            public IUserBLL UserBLL { get; set; }
+            ```
+
+       8. 事件聚合器
+
+          **消息订阅和发布**
+
+          框架默认注入了IEventAggregator的实现
+
+          - 第一步：注入IEventAggregator实例
+
+          - 第二步：订阅事件
+
+            1. 第一步：创建自定义事件，继承自PubSubEvent、PubSubEvent<T>
+
+               如果是泛型事件类型，表示事件有参数，类型就是事件传入参数的类型
+
+               ```c#
+               /// <summary>
+               /// 自定义消息事件
+               /// </summary>
+               public class MessageEvent : PubSubEvent<string>
+               {
+               
+               }
+               ```
+
+            2. 第二步：订阅事件
+
+               ```c#
+               //订阅事件
+               _eventAggregator.GetEvent<MessageEvent>().Subscribe((data) =>
+               {
+                     ///todo 订阅事件的响应的处理逻辑
+               });
+               ```
+
+            3. 第三步：销毁订阅
+
+               **当keepSubscriberReferenceAlive参数为true时，需要注销订阅**
+
+               ```c#
+               _eventAggregator.GetEvent<MessageEvent>().Unsubscribe(methodName);
+               ```
+
+          - 第三步：发布事件
+
+            ```c#
+            _eventAggregator.GetEvent<MessageEvent>().Publish("hello,发送消息事件");
+            ```
+
+          1. filter
+
+             事件过滤，当filter返回true时，才会触发事件订阅响应执行
+
+             ```c#
+              _eventAggregator.GetEvent<MessageEvent>().Subscribe((data) =>
+                         {
+                             ///todo 订阅事件的响应的处理逻辑
+                         },ThreadOption.PublisherThread,false,data=>data.StartsWith("hello"));
+             ```
+
+          2. ThreadOption
+
+             订阅事件执行处理在哪种线程执行
+
+             - PublisherThread：在发布该事件的线程上处理
+             - UIThread：不管在什么线程上发布该事件，均在UI线程上处理。可以来代替Application.Current.Invoke(()=>{})
+             - BackgroundThread：不管在什么线程上发布该事件，均在后台线程上处理
+
+             ```c#
+              _eventAggregator.GetEvent<MessageEvent>().Subscribe((data) =>
+                                                                  {
+                                                                      ///todo 订阅事件的响应的处理逻辑
+                                                                  },ThreadOption.PublisherThread);
+             ```
+
+          3. keepSubscriberReferenceAlive
+
+             默认为false
+
+             - false：当窗口关闭时，所有订阅事件都会被销毁
+             - true：不会注销事件订阅，必须明确的卸载订阅事件
+
+          4. 
+
+       9. 弹出窗口
+
+          - 步骤
+
+            1. 第一步：创建弹窗内容控件和相应的ViewModel
+
+               ```xaml
+               <UserControl x:Class="MvvmPrismDemo.ViewTest.DialogContent"
+                            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                            xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                            xmlns:local="clr-namespace:MvvmPrismDemo.ViewTest"
+                            mc:Ignorable="d" 
+                            d:DesignHeight="450" d:DesignWidth="800"
+                            xmlns:prism="http://prismlibrary.com/">
+                   <!--设置弹窗的样式-->
+                   <prism:Dialog.WindowStyle>
+                       <!--这种形式其实是设置的是弹窗窗体(window)的样式-->
+                       <Style TargetType="Window">
+                           <Setter Property="Width" Value="500"/>
+                           <Setter Property="Height" Value="500"/>
+                       </Style>
+                   </prism:Dialog.WindowStyle>
+                   <Grid>
+                       <StackPanel>
+                           <TextBlock>hello dialog</TextBlock>
+                       </StackPanel>
+                   </Grid>
+               </UserControl>
+               
+               ```
+
+               ```c#
+               public class DialogContentViewModel : IDialogAware
+                   {
+                       public string Title => "弹窗标题";
+               
+                       /// <summary>
+                       /// 关闭弹窗操作
+                       /// </summary>
+                       public event Action<IDialogResult> RequestClose;
+               
+                       /// <summary>
+                       /// 是否允许关闭弹窗
+                       /// </summary>
+                       /// <returns></returns>
+                       /// <exception cref="NotImplementedException"></exception>
+                       public bool CanCloseDialog()
+                       {
+                           return true;
+                       }
+               
+                       /// <summary>
+                       /// 当窗口关闭时调用
+                       /// </summary>
+                       /// <exception cref="NotImplementedException"></exception>
+                       public void OnDialogClosed()
+                       {
+                       }
+               
+                       /// <summary>
+                       /// 当窗口打开时调用执行
+                       /// </summary>
+                       /// <param name="parameters"></param>
+                       /// <exception cref="NotImplementedException"></exception>
+                       public void OnDialogOpened(IDialogParameters parameters)
+                       {
+                       }
+                   }
+               ```
+
+            2. 注册dialog名称
+
+               ```c#
+               app.xaml.cs
+               /// <summary>
+               /// ioc容器的对象注册
+               /// </summary>
+               /// <param name="containerRegistry"></param>
+               protected override void RegisterTypes(IContainerRegistry containerRegistry)
+               {
+                   //注册IUserBLL的具体实现为UserBLL
+                   containerRegistry.Register<IUserBLL, UserBLL>();
+               
+                   //注册弹窗
+                   containerRegistry.RegisterDialog<DialogContent>(nameof(DialogContent));
+               }
+               ```
+
+            3. 打开dialog
+
+               ```c#
+               需要显示弹窗的ViewModel类里面
+                   
+               using Unity;
+               
+               [Dependency]
+               public IDialogService _dialogService { get; set; }
+               private void ShowDialog()
+               {
+                   _dialogService.ShowDialog("DialogContent");
+                   _dialogService.ShowDialog("DialogContent", null, null, "win1");
+               }
+               ```
+
+               - windowName：指定弹窗显示在哪个父窗体里面
+
+               - parameters：打开窗体时传递的参数
+
+                 1. 第一步：在打开窗口时创建参数
+
+                    ```c#
+                     private void ShowDialog()
+                     {
+                         DialogParameters param = new DialogParameters();
+                         param.Add("userName", "joy");
+                         param.Add("age",26);
+                         _dialogService.ShowDialog("DialogContent", param, null, "win1");
+                     }
+                    ```
+
+                 2. 第二步：在弹窗内容VM中获取传递的参数
+
+                    ```c#
+                     /// <summary>
+                    /// 当窗口打开时调用执行
+                    /// </summary>
+                    /// <param name="parameters"></param>
+                    /// <exception cref="NotImplementedException"></exception>
+                    public void OnDialogOpened(IDialogParameters parameters)
+                    {
+                        //获取打开窗口时传递的参数
+                        string userName = parameters.GetValue<string>("userName");
+                    }
+                    ```
+
+               - callback：关闭窗口后的回调
+
+                 这个回调会被绑定在弹窗VM里面的RequestClose事件上面。有弹窗子窗体负责调用
+
+               - 
+
+            4. 
+
+          - 基本对象
+
+            - IDialogAware：自定义窗体的VM负责实现
+
+            - IDialogService：显示弹窗的调用实现
+
+            - IDialogWindow
+
+              自定义Dialog父窗口实现
+
+              1. 第一步：新建一个窗体，**窗体后台代码继承IDialogWindow接口**
+
+                 统一的设置弹出窗体的样式
+
+                 ```xaml
+                 <Window x:Class="MvvmPrismDemo.DialogWindowBase"
+                         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                         xmlns:local="clr-namespace:MvvmPrismDemo"
+                         mc:Ignorable="d"
+                         Title="DialogWindowBase" Height="450" Width="800">
+                     <Grid>
+                         
+                     </Grid>
+                 </Window>
+                 
+                 ```
+
+                 ```c#
+                 /// <summary>
+                 /// DialogWindowBase.xaml 的交互逻辑
+                 /// </summary>
+                 public partial class DialogWindowBase : Window,IDialogWindow
+                 {
+                     public DialogWindowBase()
+                     {
+                         InitializeComponent();
+                     }
+                 
+                     public IDialogResult Result { get; set; }
+                 }
+                 ```
+
+                 
+
+              2. 第二步：注册此窗体
+
+                 ```c#
+                  /// <summary>
+                  /// ioc容器的对象注册
+                  /// </summary>
+                  /// <param name="containerRegistry"></param>
+                  protected override void RegisterTypes(IContainerRegistry containerRegistry)
+                  {
+                 //注册dialog父窗口实现，只要注册了弹窗窗体就会使用注册的父窗体（没有给窗体指定名称）
+                 //如果在注册父窗口时指定了名称，那么在showDialog()时就必须指定在哪个父窗口显示，否则还是会调用框架自带的父窗口
+                 containerRegistry.RegisterDialogWindow<DialogWindowBase>();
+                 }
+                 ```
+
+       10. Region：区域管理
+
+           - shell与region
+
+             region：确定内容的功能，确保交互页面的内容更新
+
+             shell：界面内容的载体
+
+           - Region的注册
+
+             - 内容区域注册：contentcontrolregionadapter
+
+               1. 第一步：在主窗体上定义一个region显示区域并注册该区域
+
+                  ```xaml
+                  <Window x:Class="MvvmPrismDemo.ViewTest.MainTest"
+                          xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                          xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                          xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                          xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                          xmlns:local="clr-namespace:MvvmPrismDemo.ViewTest"
+                          xmlns:prism="http://prismlibrary.com/"
+                          mc:Ignorable="d"
+                          Title="MainTest" Height="450" Width="800">
+                      <Grid>
+                          <ContentControl prism:RegionManager.RegionName="MainContent">
+                              <!--prism:RegionManager.RegionName="MainContent"用来注册区域，区域名称为：MainContent-->
+                              <!--用来显示region内容-->
+                          </ContentControl>
+                      </Grid>
+                  </Window>
+                  ```
+
+               2. 第二步：新建一个作为region显示内容的用户控件
+
+               3. 第三步：将一个指定的页面添加到指定的region显示
+
+                  ```c#
+                  MainTestViewModel.cs
+                  _regionManager.AddToRegion("MainContent", "RegionContentView");
+                  ```
+
+                  >```c#
+                  >//将一个view显示到region的几种方式
+                  >
+                  >//第一种方式：AddToRegion()方式可以向region中添加新的view，但是不一定添加进去的view就能立即被显示，需要激活region里面要显示的页面，同时会将界面的内容进行缓存
+                  >_regionManager.AddToRegion("MainContent", "RegionContentView");
+                  >var region = _regionManager.Regions["MainContent"];
+                  >var view = region.Views.Where(v=>v.GetType().Name== "RegionContentView").FirstOrDefault();
+                  >region.Activate(view);
+                  >```
+                  >
+                  >
+
+               4. 第四步：在App.xaml.cs中注册用户控件
+
+                  ```c#
+                   /// <summary>
+                  /// ioc容器的对象注册
+                  /// </summary>
+                  /// <param name="containerRegistry"></param>
+                  protected override void RegisterTypes(IContainerRegistry containerRegistry)
+                  {
+                      //注册区域
+                      containerRegistry.RegisterForNavigation<RegionContentView>(nameof(RegionContentView));
+                  }
+                  ```
+
+                  
+
+               5. 
+
+             - 集合区域注册：ItemsControlregionadapter
+
+               会同时显示region里所有已经添加的view，但只有一个view是激活的状态
+
+               1. 第一步：定义一个集合区域
+
+                  ```xaml
+                  <ItemsControl prism:RegionManager.RegionName="MainContent1">
+                      <!--prism:RegionManager.RegionName="MainContent1"用来注册区域，区域名称为：MainContent1-->
+                      <!--用来显示region内容-->
+                  </ItemsControl>
+                  ```
+
+                  
+
+               2. 后续步骤同上
+
+             - tabcontrolregionadapter
+
+               以tabcontrol的形式显示添加进region的view，且不会重复添加
+
+               1. 第一步：定义一个tab区域
+
+                  ```xaml
+                  <TabControl prism:RegionManager.RegionName="MainContent2">
+                      <!--prism:RegionManager.RegionName="MainContent2"用来注册区域，区域名称为：MainContent2-->
+                      <!--用来显示region内容-->
+                  </TabControl>
+                  ```
+
+                  
+
+               2. 后续步骤同上
+
+             - 自定义region
+
+               1. 第一步：新建一个控件类型的region适配器类
+
+                  ```c#
+                   /// <summary>
+                  /// 注册一个可以以cavas类型的区域适配器
+                  /// </summary>
+                  public class CanvasRegionAdapter : RegionAdapterBase<Canvas>
+                  {
+                      public CanvasRegionAdapter(IRegionBehaviorFactory regionBehaviorFactory) : base(regionBehaviorFactory)
+                      {
+                      }
+                  
+                      /// <summary>
+                      /// 如何将view添加到cavas里面
+                      /// </summary>
+                      /// <param name="region"></param>
+                      /// <param name="regionTarget">对应的canvas区域</param>
+                      /// <exception cref="NotImplementedException"></exception>
+                      protected override void Adapt(IRegion region, Canvas regionTarget)
+                      {
+                          region.Views.CollectionChanged += (sender, args) =>
+                          {
+                              //添加，相当于addToRegion()
+                              if(args.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
+                              {
+                                  foreach(UIElement view in args.NewItems)
+                                  {
+                                      regionTarget.Children.Add(view);
+                                  }
+                              }
+                              else if(args.Action== System.Collections.Specialized.NotifyCollectionChangedAction.Remove)
+                              {
+                                  foreach (UIElement view in args.NewItems)
+                                  {
+                                      regionTarget.Children.Remove(view);
+                                  }
+                              }
+                          };
+                      }
+                  
+                      protected override IRegion CreateRegion()
+                      {
+                          return new AllActiveRegion();
+                      }
+                  }
+                  ```
+
+               2. 注册定义的regionadapter
+
+                  ```c#
+                   protected override void ConfigureRegionAdapterMappings(RegionAdapterMappings regionAdapterMappings)
+                   {
+                       base.ConfigureRegionAdapterMappings(regionAdapterMappings);
+                  
+                       regionAdapterMappings.RegisterMapping<Canvas>(Container.Resolve<CanvasRegionAdapter>());
+                   }
+                  ```
+
+               3. 定义一个canvas区域，如何使用
+
+                  ```
+                  <Canvas prism:RegionManager.RegionName="MainContent2">
+                      <!--prism:RegionManager.RegionName="MainContent2"用来注册区域，区域名称为：MainContent2-->
+                      <!--用来显示region内容-->
+                  </Canvas>
+                  ```
+
+                  
+
+               4. 其余步骤同上
+
+           - region导航
+
+             需要导航的界面都需要在App.xaml.cs中注册
+
+             **containerRegistry.RegisterForNavigation<RegionContentView>(nameof(RegionContentView));**
+
+             1. 基本导航过程
+
+                - addToRegion：
+
+                  add了多个view时，需要激活需要显示的界面，否则就会一直显示第一个界面
+
+                  只要加一个view就会创建一个view实例
+
+                - RequestNavigate（导航）
+
+                  显示的view不会被重复添加
+
+                  ```c#
+                   _regionManager.RequestNavigate("MainContent", "RegionContentView");
+                  ```
+
+                - RegisterViewWithRegion
+
+                  通过此种方式添加的view，可以不在app.xaml.cs中进行注册
+
+                  ```c#
+                  //指定区域加载指定的内容
+                  _regionManager.RegisterViewWithRegion("MainContent", typeof(RegionContentView));
+                  ```
+
+                  
+
+                - 
+
+             2. 导航生命周期
+
+                - IRegionMemberLifetime
+
+                  ```c#
+                   public class RegionContentViewModel : IRegionMemberLifetime
+                   {
+                       /// <summary>
+                       /// true：保持view实例不被切换
+                       /// false：页面切换都是新的view实例
+                       /// </summary>
+                       public bool KeepAlive => true;
+                   }
+                  ```
+
+                  或者使用特性
+
+                  ```c#
+                   [RegionMemberLifetime(KeepAlive =true)]
+                  public class RegionContentViewModel 
+                  {
+                  }
+                  ```
+
+             3. IConfirmNavigationRequest：导航确认
+
+                ```c#
+                public class RegionContentViewModel : IRegionMemberLifetime,IConfirmNavigationRequest
+                {
+                    /// <summary>
+                    /// true：保持view实例不被切换
+                    /// false：页面切换都是新的view实例
+                    /// </summary>
+                    public bool KeepAlive => true;
+                
+                    /// <summary>
+                    /// 处理导航请求，是否允许离开当前界面
+                    /// 当从A视图跳转到B视图时，在A视图中进行跳转确认
+                    /// </summary>
+                    /// <param name="navigationContext"></param>
+                    /// <param name="continuationCallback"></param>
+                    /// <exception cref="NotImplementedException"></exception>
+                    public void ConfirmNavigationRequest(NavigationContext navigationContext, Action<bool> continuationCallback)
+                    {
+                        bool result = true;
+                        if(MessageBox.Show("是否要进行跳转","提示",MessageBoxButton.YesNo)==MessageBoxResult.No) {
+                            result = false;
+                        }
+                        //如果不执行callback，就不会执行跳转
+                        continuationCallback(result);
+                    }
+                
+                    /// <summary>
+                    /// 是否是导航目标
+                    /// </summary>
+                    /// <param name="navigationContext"></param>
+                    /// <returns></returns>
+                    public bool IsNavigationTarget(NavigationContext navigationContext)
+                    {
+                        //true：直接返回之前加载的视图
+                        //false：返回一个新的视图
+                        return true;
+                    }
+                
+                    /// <summary>
+                    /// 离开当前视图
+                    /// </summary>
+                    /// <param name="navigationContext"></param>
+                    /// <exception cref="NotImplementedException"></exception>
+                    public void OnNavigatedFrom(NavigationContext navigationContext)
+                    {
+                        throw new NotImplementedException();
+                    }
+                
+                    /// <summary>
+                    /// 导航到当前视图时回调，
+                    /// </summary>A
+                    /// <param name="navigationContext"></param>
+                    public void OnNavigatedTo(NavigaAtionContext navigationContext)
+                    {
+                         //获取导航传递的参数
+                        var value = navigationContext.Parameters["Name"];
+                    }
+                }
+                ```
+
+             4. INavigationAware：导航传参
+
+             5. IRegionNavigationJournal：导航日志
+
+                - 获取导航日志
+
+                  ```c#
+                  /// <summary>
+                  /// 导航到当前视图时回调，
+                  /// </summary>
+                  /// <param name="navigationContext"></param>
+                  public void OnNavigatedTo(NavigationContext navigationContext)
+                  {
+                      //获取导航日志
+                      journal = navigationContext.NavigationService.Journal;
+                  }
+                  ```
+
+                - 前进后退
+
+                  ```c#
+                  if (journal.CanGoBack)
+                  {
+                      //后退
+                      journal.GoBack();
+                  }
+                  if (journal.CanGoForward)
+                  {
+                      //前进
+                      journal.GoForward();
+                  }
+                  ```
+
+           - 
+
+       11. Module：模块化管理
+
+           module是 功能和资源的逻辑整合，其打包方式可以单独开发、测试、部署并集成到主程序
+
+           - module的使用
+
+             1. 创建一个WPF用户控件库作为一个module
+
+             2. 在module中创建一个中心类并实现IModule接口，用于注册module里的类型
+
+                每个module都有一个中心类，负责初始化模块并将其功能集成到应用程序中
+
+                ```c#
+                public class SubModule : IModule
+                {
+                    public void OnInitialized(IContainerProvider containerProvider)
+                    {
+                    }
+                
+                    public void RegisterTypes(IContainerRegistry containerRegistry)
+                    {
+                        containerRegistry.RegisterForNavigation<ViewA>();
+                    }
+                }
+                ```
+
+             3. 在主程序中注册module
+
+                ```c#
+                app.xaml.cs
+                /// <summary>
+                /// 配置module
+                /// </summary>
+                /// <param name="moduleCatalog"></param>
+                protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
+                {
+                    //第一种加载module方式
+                    base.ConfigureModuleCatalog(moduleCatalog);
+                    moduleCatalog.AddModule<SubModule>();
+                
+                    //第二种方式：按需加载
+                    Type type = typeof(SubModule);
+                    moduleCatalog.AddModule(new ModuleInfo()
+                                            {
+                                                ModuleName = type.Name,
+                                                ModuleType = type.AssemblyQualifiedName,
+                                                InitializationMode = InitializationMode.OnDemand ,//按需加载module
+                
+                                            });
+                }
+                
+                ```
+
+                
+
+             4. 正常使用
+
+                ```c#
+                 _moduleManager.LoadModule("SubModule"); //如果module的加载方式设备为按需加载，就需要显示的加载指定的模块，否则module不会生效
+                _regionManager.RequestNavigate("MainContent", "RegionContentView");
+                ```
+
+                
+
+             5. 
+
+           - 
+
+       5. 
 
      - 
 

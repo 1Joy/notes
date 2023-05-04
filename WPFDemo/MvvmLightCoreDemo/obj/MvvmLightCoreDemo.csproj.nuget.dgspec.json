@@ -1,24 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\docs\\studyNotes\\notes\\WPFDemo\\MvvmLightCoreDemo\\MvvmLightCoreDemo.csproj": {}
+    "E:\\workspace\\notes\\WPFDemo\\MvvmLightCoreDemo\\MvvmLightCoreDemo.csproj": {}
   },
   "projects": {
-    "D:\\docs\\studyNotes\\notes\\WPFDemo\\MvvmLightCoreDemo\\MvvmLightCoreDemo.csproj": {
+    "E:\\workspace\\notes\\WPFDemo\\MvvmLightCoreDemo\\MvvmLightCoreDemo.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\docs\\studyNotes\\notes\\WPFDemo\\MvvmLightCoreDemo\\MvvmLightCoreDemo.csproj",
+        "projectUniqueName": "E:\\workspace\\notes\\WPFDemo\\MvvmLightCoreDemo\\MvvmLightCoreDemo.csproj",
         "projectName": "MvvmLightCoreDemo",
-        "projectPath": "D:\\docs\\studyNotes\\notes\\WPFDemo\\MvvmLightCoreDemo\\MvvmLightCoreDemo.csproj",
-        "packagesPath": "C:\\Users\\JOY\\.nuget\\packages\\",
-        "outputPath": "D:\\docs\\studyNotes\\notes\\WPFDemo\\MvvmLightCoreDemo\\obj\\",
+        "projectPath": "E:\\workspace\\notes\\WPFDemo\\MvvmLightCoreDemo\\MvvmLightCoreDemo.csproj",
+        "packagesPath": "C:\\Users\\Joy\\.nuget\\packages\\",
+        "outputPath": "E:\\workspace\\notes\\WPFDemo\\MvvmLightCoreDemo\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+          "D:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\JOY\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Joy\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -27,8 +26,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {},
-          "https://www.nuget.org/api/v2/": {}
+          "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "netcoreapp3.1": {
@@ -61,10 +59,25 @@
             "net47",
             "net471",
             "net472",
-            "net48"
+            "net48",
+            "net481"
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[3.1.10, 3.1.10]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[3.1.0, 3.1.0]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[3.1.0, 3.1.0]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
@@ -73,7 +86,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.104\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.200\\RuntimeIdentifierGraph.json"
         }
       }
     }

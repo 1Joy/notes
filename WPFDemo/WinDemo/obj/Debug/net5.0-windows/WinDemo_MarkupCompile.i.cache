@@ -4,16 +4,16 @@
 winexe
 C#
 .cs
-D:\docs\studyNotes\notes\WPFDemo\WinDemo\obj\Debug\net5.0-windows\
+E:\workspace\notes\WPFDemo\WinDemo\obj\Debug\net5.0-windows\
 WinDemo
 none
 false
 TRACE;DEBUG;NET;NET5_0;NETCOREAPP
-D:\docs\studyNotes\notes\WPFDemo\WinDemo\App.xaml
+E:\workspace\notes\WPFDemo\WinDemo\App.xaml
 16405005806
 
 21-866950828
-1941735053043
+194-1266275702
 AnimationWin.xaml;BindingWin.xaml;CustomerControlWin.xaml;CustomerPanelWin.xaml;EventWin.xaml;LayoutWin.xaml;MainWindow.xaml;NoBorderWin.xaml;ShapeWin.xaml;StyleWin.xaml;TempleteWin.xaml;Themes\Generic.xaml;UCRouteEvent.xaml;UserControl1.xaml;UserControls\UserControl1.xaml;Views\BindingDemoWin.xaml;
 
 False

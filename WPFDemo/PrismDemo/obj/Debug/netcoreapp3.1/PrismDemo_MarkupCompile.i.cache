@@ -4,16 +4,16 @@
 winexe
 C#
 .cs
-D:\docs\studyNotes\notes\WPFDemo\PrismDemo\obj\Debug\netcoreapp3.1\
+E:\workspace\notes\WPFDemo\PrismDemo\obj\Debug\netcoreapp3.1\
 PrismDemo
 none
 false
 TRACE;DEBUG;NETCOREAPP;NETCOREAPP3_1;
-D:\docs\studyNotes\notes\WPFDemo\PrismDemo\App.xaml
+E:\workspace\notes\WPFDemo\PrismDemo\App.xaml
 4-1082819066
 
 91505902085
-200-439776747
+200-27795689
 UserControls\UserControl1.xaml;Views\MainWindow.xaml;Views\ViewContent.xaml;Views\ViewHeader.xaml;
 
 False

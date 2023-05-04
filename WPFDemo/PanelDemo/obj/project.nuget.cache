@@ -1,8 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "qfjyq96bWCUv6MZXaXUE8nDE72xmxJvbXwplV8noib31qS1WFG4UnVFOmOdQViQtzRVoAqolCZ1U4A0rKJF4mQ==",
+  "dgSpecHash": "+ZZ1etdKFLmo2rTAgsRDzELzCTJD2aBXq1Z7bU6JNgTRP863Uv+AmrWfSd8bPfRkrf93feqz23rVVpDQ3xumTQ==",
   "success": true,
-  "projectFilePath": "D:\\docs\\studyNotes\\notes\\WPFDemo\\PanelDemo\\PanelDemo.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "E:\\workspace\\notes\\WPFDemo\\PanelDemo\\PanelDemo.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Joy\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\5.0.0\\microsoft.windowsdesktop.app.ref.5.0.0.nupkg.sha512",
+    "C:\\Users\\Joy\\.nuget\\packages\\microsoft.netcore.app.ref\\5.0.0\\microsoft.netcore.app.ref.5.0.0.nupkg.sha512",
+    "C:\\Users\\Joy\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\5.0.0\\microsoft.aspnetcore.app.ref.5.0.0.nupkg.sha512",
+    "C:\\Users\\Joy\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\5.0.17\\microsoft.netcore.app.host.win-x64.5.0.17.nupkg.sha512"
+  ],
   "logs": []
 }
